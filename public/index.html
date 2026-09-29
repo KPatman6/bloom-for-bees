@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f1" />
+    <meta name="description" content="Bloom for Bees Day is a simple June 7 tradition: plant one pollinator-friendly flower and invite your community to grow with you." />
+    <meta property="og:title" content="Bloom for Bees Day — one bloom at a time" />
+    <meta property="og:description" content="A little holiday for a lot of life. Make your flower plan for June 7." />
+    <meta property="og:type" content="website" />
+    <title>Bloom for Bees Day — One bloom at a time</title>
+    <link rel="icon" href="assets/flower-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="experience.css" />
+    <link rel="stylesheet" href="world.css?v=3" />
+    <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+    <script type="module" src="app-shell.js"></script>
+    <script type="module" src="bee-world.js?v=87"></script>
+    
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="reading-progress" aria-hidden="true"><span id="reading-progress-fill"></span></div>
+
+    <div class="announcement-bar">
+      <span class="announcement-flower" aria-hidden="true">✿</span>
+      <p><strong>Bloom for Bees Day is June 7.</strong> One flower can start something beautiful.</p>
+      <a href="#plan">Make a plan <span aria-hidden="true">↗</span></a>
+    </div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Bloom for Bees home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 19.5c-5.8-9.8-13.5-6.6-9.1.1-7.1-1.9-10.4 5.8.2 8-4.7 6.2 2.7 11.6 8.9 1.2 5.8 10.4 13.5 5 8.8-1.2 10.8-2.2 7.6-9.9.3-8 4.4-6.7-3.3-9.9-9.1-.1Z" fill="currentColor" />
+            <circle cx="20" cy="21" r="3.2" fill="#F6C85F" />
+            <path d="M20 25c-.4 5.5-1 8.5-3.6 11" stroke="#28593F" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </span>
+        <span class="brand-wordmark">Bloom for Bees<span>DAY · JUNE 7</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#journey">The story</a>
+        <a href="#small-spaces">Find your place</a>
+        <a href="#plan">Make a plan</a>
+        <a href="#faq">Good to know</a>
+      </nav>
+      <nav class="main-nav app-top-nav" id="app-top-nav" aria-label="Your garden" hidden>
+        <button type="button" data-view="overview">Overview</button>
+        <button type="button" data-view="garden">My garden</button>
+        <button type="button" data-view="guide">Bloom guide</button>
+      </nav>
+      <div class="header-actions">
+        <button id="header-login" class="header-login" type="button" data-open-auth="login">Log in</button>
+      <a class="header-cta" id="header-cta" href="#plan" data-magnetic>Join the bloom <span aria-hidden="true">↗</span></a>
+        <button id="header-profile" class="header-profile" type="button" aria-label="Open your profile menu" hidden><span id="header-avatar">B</span><span id="header-user-name"></span><span aria-hidden="true">⌄</span></button>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#journey">The story</a>
+      <a href="#small-spaces">Find your place</a>
+      <a href="#plan">Make a plan</a>
+      <a href="#faq">Good to know</a>
+      <a href="#share">Share the day</a>
+    </nav>
+
+    <main id="main">
+      <div id="marketing-site" class="experience">
+        <section class="opening-world" id="top" data-opening-scene aria-labelledby="hero-title" data-experience-section="opening">
+          <div class="opening-track">
+            <div class="opening-stage">
+              <div class="opening-image-layer" aria-hidden="true">
+                <canvas id="opening-webgl-canvas" class="opening-webgl-canvas" aria-label="A cinematic garden with a real bumblebee at a flower"></canvas>
+              </div>
+              <div class="opening-shade" aria-hidden="true"></div>
+              <div class="opening-halo opening-halo-one" aria-hidden="true"></div>
+              <div class="opening-halo opening-halo-two" aria-hidden="true"></div>
+              <div class="opening-topline"><span>Bloom for Bees Day</span><span>JUNE 07 · EVERY YEAR</span></div>
+              <div class="opening-coordinate" aria-hidden="true">43° 39′ N&nbsp; / &nbsp;GROW WHERE YOU ARE</div>
+              <div class="opening-copy">
+                <p class="opening-eyebrow"><span></span>A LITTLE HOLIDAY FOR A LOT OF LIFE</p>
+                <h1 id="hero-title">One bloom.<br /><em>More life.</em></h1>
+                <p class="opening-description">A flower can turn an ordinary corner into a place to pause, notice, and care. Every June 7, let’s make a little more room for the things that keep us growing.</p>
+                <div class="opening-actions">
+                  <a class="button button-primary" href="#plan" data-magnetic>Plan your bloom <span aria-hidden="true">↗</span></a>
+                  <a class="button-link" href="#journey">Follow one flower <span aria-hidden="true">↓</span></a>
+                </div>
+                <p class="opening-afterthought"><span>Somewhere in the sun,</span><br />a small beginning changes everything.</p>
+              </div>
+              <div class="opening-date" aria-label="Bloom for Bees Day, June 7"><span>EVERY YEAR</span><strong>JUN<br />07</strong><small>ONE FLOWER AT A TIME</small></div>
+              <div class="opening-caption"><span class="opening-caption-mark" aria-hidden="true">✳</span><span><strong>No garden required.</strong><br />A sunny pot is a place to begin.</span><span aria-hidden="true">↗</span></div>
+              <div class="opening-facts" aria-label="A day to make a little more room for life">
+                <span class="opening-facts-intro">A day to make a little<br />more room for life.</span>
+                <span class="opening-fact"><b>01</b><span>Choose a bloom<small>Find one that belongs here</small></span></span>
+                <span class="opening-fact"><b>07</b><span>Plant on June 7<small>Or begin when you can</small></span></span>
+                <span class="opening-fact"><b>∞</b><span>Invite someone in<small>Good things grow together</small></span></span>
+              </div>
+              <div class="opening-progress" aria-hidden="true"><span></span></div>
+              <span class="opening-word" aria-hidden="true">alive</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="bee-journey" id="journey" data-bee-world aria-labelledby="journey-title">
+          <div class="bee-journey-track">
+            <div class="bee-journey-stage">
+              <div class="bee-render-shell" aria-label="Cinematic pollinator story">
+                <canvas id="webgl-canvas" class="bee-world-canvas" aria-label="A cinematic bumblebee journey from nest to garden as you scroll"></canvas>
+                <div class="bee-render-glow" aria-hidden="true"></div>
+                <div class="bee-render-vignette" aria-hidden="true"></div>
+              </div>
+              <div class="bee-journey-topline"><span>THE LIVING SYSTEM · 01—08</span><span>SCROLL TO MOVE THROUGH THE WORLD</span></div>
+              <div class="bee-journey-copy">
+                <p class="bee-journey-eyebrow"><span></span> A CINEMATIC POLLINATOR STORY</p>
+                <div class="bee-chapters">
+                  <article class="bee-chapter is-active" data-bee-chapter="0">
+                    <span class="bee-kicker">01 <i>— ARRIVE</i></span>
+                    <h2 id="journey-title">Leave the<br /><em>nest.</em></h2>
+                    <p>Before the first flight, a bumblebee wakes beneath the garden and follows the morning light toward the flowers.</p>
+                  </article>
+                  <article class="bee-chapter" data-bee-chapter="1" aria-hidden="true">
+                    <span class="bee-kicker">02 <i>— RETURN</i></span>
+                    <h2>Into the<br /><em>light.</em></h2>
+                    <p>She rises through grass and warm air, leaving the sheltered nest to search for the first bloom.</p>
+                  </article>
+                  <article class="bee-chapter" data-bee-chapter="2" aria-hidden="true">
+                    <span class="bee-kicker">03 <i>— FOLLOW</i></span>
+                    <h2>Find the<br /><em>bloom.</em></h2>
+                    <p>One turn of the wings brings her over a living garden, where colour and scent make a route through the day.</p>
+                  </article>
+                  <article class="bee-chapter" data-bee-chapter="3" aria-hidden="true">
+                    <span class="bee-kicker">04 <i>— NOTICE</i></span>
+                    <h2>Land<br /><em>softly.</em></h2>
+                    <p>At petal scale, wing veins, velvet hairs, and pollen dust turn one landing into an entire landscape.</p>
+                  </article>
+                  <article class="bee-chapter" data-bee-chapter="4" aria-hidden="true">
+                    <span class="bee-kicker">05 <i>— CONNECT</i></span>
+                    <h2>Carry it<br /><em>onward.</em></h2>
+                    <p>Gold pollen catches in her coat and moves with her, ready to join the next flower she visits.</p>
+                  </article>
+                  <article class="bee-chapter" id="small-spaces" data-bee-chapter="5" aria-hidden="true">
+                    <span class="bee-kicker">06 <i>— MAKE ROOM</i></span>
+                    <h2>Make a<br /><em>corridor.</em></h2>
+                    <p>A balcony, schoolyard, window box, or shared patch can give the next bee another safe place to land.</p>
+                  </article>
+                  <article class="bee-chapter" id="ritual" data-bee-chapter="6" aria-hidden="true">
+                    <span class="bee-kicker">07 <i>— PLANT</i></span>
+                    <h2>Let it<br /><em>grow.</em></h2>
+                    <p>One seed, a little light, and a promise to keep showing up turns a small patch of soil into habitat.</p>
+                  </article>
+                  <article class="bee-chapter" data-bee-chapter="7" aria-hidden="true">
+                    <span class="bee-kicker">08 <i>— INVITE</i></span>
+                    <h2>Invite more<br /><em>life.</em></h2>
+                    <p>Plant beside someone else and the journey keeps moving: one bee, one bloom, one shared place at a time.</p>
+                  </article>
+                </div>
+                <div class="bee-journey-navigation" role="group" aria-label="Pollinator story chapters">
+                  <button type="button" data-bee-jump="0" aria-label="Go to chapter one: arrive" aria-current="step">01</button><span></span>
+                  <button type="button" data-bee-jump="1" aria-label="Go to chapter two: return">02</button><span></span>
+                  <button type="button" data-bee-jump="2" aria-label="Go to chapter three: follow">03</button><span></span>
+                  <button type="button" data-bee-jump="3" aria-label="Go to chapter four: notice">04</button><span></span>
+                  <button type="button" data-bee-jump="4" aria-label="Go to chapter five: connect">05</button><span></span>
+                  <button type="button" data-bee-jump="5" aria-label="Go to chapter six: make room">06</button><span></span>
+                  <button type="button" data-bee-jump="6" aria-label="Go to chapter seven: plant">07</button><span></span>
+                  <button type="button" data-bee-jump="7" aria-label="Go to chapter eight: invite">08</button>
+                  <b><strong id="bee-journey-count">01</strong> / 08</b>
+                </div>
+                <a class="bee-journey-link" href="#plan">Make room for one bloom <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="bee-journey-side-label" aria-hidden="true">ONE FLOWER · MANY CONNECTIONS</div>
+              <div class="bee-journey-progress" aria-hidden="true"><span></span></div>
+              <div class="bee-journey-index" aria-hidden="true"><b>01</b><span>/ 08</span></div>
+              <div class="bee-journey-scroll-note" aria-hidden="true"><span class="bee-scroll-wheel"></span> KEEP SCROLLING</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cinematic-journey legacy-world" id="legacy-journey" aria-labelledby="legacy-journey-title">
+          <div class="cinematic-journey-track">
+            <div class="cinematic-journey-stage">
+              <div class="cinematic-journey-media" aria-hidden="true">
+                <figure class="cinematic-frame" data-cinematic-frame="0"><img data-src="assets/bloom-cinematic-01-landing.jpg" alt="" width="1672" height="941" /></figure>
+                <figure class="cinematic-frame" data-cinematic-frame="1"><img data-src="assets/bloom-cinematic-02-flight.jpg" alt="" width="1672" height="941" /></figure>
+                <figure class="cinematic-frame" data-cinematic-frame="2"><img data-src="assets/bloom-cinematic-03-pollen.jpg" alt="" width="1672" height="941" /></figure>
+                <figure class="cinematic-frame" data-cinematic-frame="3"><img data-src="assets/bloom-cinematic-04-habitat.jpg" alt="" width="1672" height="941" /></figure>
+                <figure class="cinematic-frame" data-cinematic-frame="4"><img data-src="assets/bloom-cinematic-05-planting.jpg" alt="" width="1672" height="941" /></figure>
+              </div>
+              <div class="cinematic-journey-scrim" aria-hidden="true"></div>
+              <div class="cinematic-journey-grain" aria-hidden="true"></div>
+              <div class="cinematic-journey-topline"><span>01 / THE LIVING SYSTEM</span><span>SCROLL TO FOLLOW THE POLLINATOR</span></div>
+              <div class="cinematic-journey-copy">
+                <p class="cinematic-journey-eyebrow"><span></span> ONE FLOWER, MANY CONNECTIONS</p>
+                <div class="cinematic-journey-chapters">
+                  <article class="cinematic-journey-chapter" data-cinematic-step="0">
+                    <span class="cinematic-journey-kicker">01 <i>— ARRIVE</i></span>
+                    <h2 id="journey-title">A garden is a<br /><em>conversation.</em></h2>
+                    <p>One flower catches the last light. A bee arrives carrying the first small proof that life is listening.</p>
+                  </article>
+                  <article class="cinematic-journey-chapter" data-cinematic-step="1" aria-hidden="true">
+                    <span class="cinematic-journey-kicker">02 <i>— FOLLOW</i></span>
+                    <h2>Follow the<br /><em>pollen.</em></h2>
+                    <p>Move closer: hairs, wing veins, and tiny grains connect one bloom to the next.</p>
+                  </article>
+                  <article class="cinematic-journey-chapter" data-cinematic-step="2" aria-hidden="true">
+                    <span class="cinematic-journey-kicker">03 <i>— CONNECT</i></span>
+                    <h2>A bloom becomes<br />a <em>corridor.</em></h2>
+                    <p>Native flowers make shade, shelter, and a route through the neighbourhood.</p>
+                  </article>
+                  <article class="cinematic-journey-chapter" data-cinematic-step="3" aria-hidden="true">
+                    <span class="cinematic-journey-kicker">04 <i>— RETURN</i></span>
+                    <h2>Small places<br />hold <em>big life.</em></h2>
+                    <p>A pot, balcony, schoolyard, or shared patch can become part of the same living system.</p>
+                  </article>
+                  <article class="cinematic-journey-chapter" data-cinematic-step="4" aria-hidden="true">
+                    <span class="cinematic-journey-kicker">05 <i>— BEGIN</i></span>
+                    <h2>Start with the<br />place you <em>have.</em></h2>
+                    <p>On June 7, choose one flower, make room for it, and invite someone to grow beside you.</p>
+                  </article>
+                </div>
+                <div class="cinematic-journey-navigation" role="group" aria-label="Pollinator story chapters">
+                  <button type="button" data-cinematic-jump="0" aria-label="Go to chapter one: arrive" aria-current="step">01</button><span></span>
+                  <button type="button" data-cinematic-jump="1" aria-label="Go to chapter two: follow">02</button><span></span>
+                  <button type="button" data-cinematic-jump="2" aria-label="Go to chapter three: connect">03</button><span></span>
+                  <button type="button" data-cinematic-jump="3" aria-label="Go to chapter four: return">04</button><span></span>
+                  <button type="button" data-cinematic-jump="4" aria-label="Go to chapter five: begin">05</button>
+                  <b><strong id="cinematic-journey-count">01</strong> / 05</b>
+                </div>
+                <a class="cinematic-journey-link" href="#plan">Make room for one bloom <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="cinematic-journey-side-label" aria-hidden="true">A SMALL HABITAT CAN CHANGE THE MAP</div>
+              <div class="cinematic-journey-progress" aria-hidden="true"><span></span></div>
+              <div class="cinematic-journey-index" aria-hidden="true"><b>01</b><span>/ 05</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="growing-world legacy-world" id="legacy-day" aria-label="The life of one bloom">
+          <div class="growing-track">
+            <div class="growing-stage">
+              <div class="growing-photo" aria-hidden="true"><img data-src="assets/bloom-cinematic-06-seedling.jpg" alt="" width="1672" height="941" /></div>
+              <div class="growing-light" aria-hidden="true"></div>
+              <div class="growing-topline"><span>02 / THE LIVING STORY</span><span>KEEP GOING TO WATCH IT UNFOLD</span></div>
+              <div class="growing-copy">
+                <p class="growing-eyebrow"><span></span> A FLOWER, FROM THE GROUND UP</p>
+                <div class="growing-chapters">
+                  <article class="growing-chapter" data-growing-chapter="0">
+                    <span class="growing-kicker">01 <i>— BEGIN</i></span>
+                    <h2>Every garden<br />begins <em>somewhere.</em></h2>
+                    <p>A seed, a little light, a place you can care for. That is enough to set something in motion.</p>
+                  </article>
+                  <article class="growing-chapter" data-growing-chapter="1" aria-hidden="true">
+                    <span class="growing-kicker">02 <i>— TAKE ROOT</i></span>
+                    <h2>Give it room<br />to <em>become.</em></h2>
+                    <p>Choose a flower that suits your climate and the sun your corner receives. Let it grow at its own pace.</p>
+                  </article>
+                  <article class="growing-chapter" data-growing-chapter="2" aria-hidden="true">
+                    <span class="growing-kicker">03 <i>— OPEN</i></span>
+                    <h2>Then let the<br />good thing <em>travel.</em></h2>
+                    <p>A bloom brings a little more life close by. An invitation helps that feeling find another place.</p>
+                  </article>
+                </div>
+                <div class="growing-navigation" role="group" aria-label="Bloom story chapters">
+                  <button type="button" data-growing-jump="0" aria-label="Go to chapter one: begin" aria-current="step">01</button>
+                  <span></span><button type="button" data-growing-jump="1" aria-label="Go to chapter two: take root">02</button>
+                  <span></span><button type="button" data-growing-jump="2" aria-label="Go to chapter three: open">03</button>
+                  <span class="growing-count"><b id="growing-count">01</b> / 03</span>
+                </div>
+                <a class="growing-link" href="#small-spaces">Life finds a way wherever sun lands <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="growing-art" role="img" aria-label="A native seedling grows in morning light">
+                <img class="growing-cinematic-art" data-src="assets/bloom-cinematic-06-seedling.jpg" alt="" width="1672" height="941" />
+                <canvas class="growing-pollen" aria-hidden="true"></canvas>
+                <div class="growing-sun" aria-hidden="true"></div>
+                <svg class="growing-plant" viewBox="0 0 1000 820" fill="none" aria-hidden="true">
+                  <defs>
+                    <radialGradient id="garden-glow" cx="0" cy="0" r="1" gradientTransform="translate(535 252) rotate(90) scale(245)"><stop stop-color="#F1D48B" stop-opacity=".38"/><stop offset="1" stop-color="#F1D48B" stop-opacity="0"/></radialGradient>
+                    <linearGradient id="plant-stem" x1="506" y1="260" x2="493" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#8AA776"/><stop offset="1" stop-color="#476D4E"/></linearGradient>
+                    <linearGradient id="petal-ink" x1="447" y1="126" x2="566" y2="272" gradientUnits="userSpaceOnUse"><stop stop-color="#F4D98E"/><stop offset="1" stop-color="#D58265"/></linearGradient>
+                  </defs>
+                  <circle cx="520" cy="248" r="230" fill="url(#garden-glow)"/>
+                  <circle class="growing-sun-disc" cx="764" cy="196" r="72" fill="#EFCF7B" fill-opacity=".73"/>
+                  <path class="growing-roots" pathLength="1" d="M500 683C487 718 450 742 410 764M501 690C512 726 546 746 588 776M495 700C463 721 460 756 465 790M508 702C542 724 542 755 538 792M497 709C490 744 477 766 477 800" stroke="#B5C994" stroke-width="5" stroke-linecap="round"/>
+                  <path class="growing-stem" pathLength="1" d="M500 690C506 618 482 553 493 483C503 413 535 341 512 268" stroke="url(#plant-stem)" stroke-width="15" stroke-linecap="round"/>
+                  <g class="growing-leaves">
+                    <path d="M495 561C425 471 333 478 352 537C369 585 441 588 495 561Z" fill="#78966A" fill-opacity=".88"/>
+                    <path d="M496 562C427 527 391 509 364 502" stroke="#C5D2A6" stroke-opacity=".65" stroke-width="3"/>
+                    <path d="M501 461C553 369 650 361 652 420C654 465 589 485 501 461Z" fill="#66875E" fill-opacity=".9"/>
+                    <path d="M509 453C562 425 606 405 643 401" stroke="#C5D2A6" stroke-opacity=".65" stroke-width="3"/>
+                    <path d="M492 633C441 586 382 599 395 641C406 675 458 676 492 633Z" fill="#64855A" fill-opacity=".83"/>
+                  </g>
+                  <path class="growing-bloom-stem" d="M512 270C501 241 498 224 500 202" stroke="#729168" stroke-width="9" stroke-linecap="round"/>
+                  <g class="growing-flower">
+                    <g fill="url(#petal-ink)" stroke="#F8E2A0" stroke-opacity=".65" stroke-width="2">
+                      <ellipse cx="500" cy="126" rx="25" ry="80"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(30 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(60 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(90 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(120 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(150 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(180 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(210 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(240 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(270 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(300 500 204)"/><ellipse cx="500" cy="126" rx="25" ry="80" transform="rotate(330 500 204)"/>
+                    </g>
+                    <circle cx="500" cy="204" r="36" fill="#855638"/><circle cx="500" cy="204" r="24" fill="#E8B957"/>
+                    <g fill="#805638" fill-opacity=".72"><circle cx="489" cy="195" r="3"/><circle cx="508" cy="193" r="3"/><circle cx="496" cy="210" r="3"/><circle cx="512" cy="211" r="3"/><circle cx="501" cy="183" r="3"/></g>
+                  </g>
+                  <g class="growing-bee" transform="translate(690 300)">
+                    <path d="M0 2C-18-31-47-29-40-5C-35 9-18 13 0 2Z" fill="#E9F0DC" fill-opacity=".85"/><path d="M5 4C18-31 45-30 39-6C34 9 20 14 5 4Z" fill="#E9F0DC" fill-opacity=".75"/><ellipse cx="0" cy="13" rx="34" ry="20" fill="#E8BC57"/><path d="M-11-4V28M8-6V31" stroke="#58452D" stroke-width="8" stroke-linecap="round"/><circle cx="34" cy="12" r="15" fill="#58452D"/><path d="M44 3l8-11M45 6l13-3" stroke="#58452D" stroke-width="3" stroke-linecap="round"/>
+                  </g>
+                  <path class="growing-soil" d="M143 694C275 677 377 705 500 691C628 676 747 684 859 699" stroke="#D4C18C" stroke-opacity=".58" stroke-width="2"/>
+                  <ellipse class="growing-seed" cx="500" cy="681" rx="12" ry="8" fill="#E5BD70"/>
+                </svg>
+                <span class="growing-art-label">ONE FLOWER AT A TIME</span>
+              </div>
+              <div class="growing-word" aria-hidden="true">GROW</div>
+              <div class="growing-progress" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="place-world legacy-world" id="legacy-small-spaces" aria-label="Places to grow a flower">
+          <div class="place-track">
+            <div class="place-stage">
+              <div class="place-sky place-sky-one" aria-hidden="true"></div>
+              <div class="place-sky place-sky-two" aria-hidden="true"></div>
+              <div class="place-copy">
+                <p class="place-eyebrow"><span></span> 03 / THE PLACE</p>
+                <h2>Life finds a way<br />wherever <em>sun lands.</em></h2>
+                <p class="place-intro">A backyard is lovely. A balcony, windowsill, schoolyard, or shared patch can be just as full of possibility.</p>
+                <div class="place-caption-set">
+                  <article class="place-caption" data-place-caption="0">
+                    <span>01 / THE WINDOW</span><h3>One bright sill.</h3><p>A window box makes a small room for colour, care, and a passing bee.</p>
+                  </article>
+                  <article class="place-caption" data-place-caption="1" aria-hidden="true">
+                    <span>02 / THE BALCONY</span><h3>A little up high.</h3><p>Give a container a sunny spot, then let colour spill into the day.</p>
+                  </article>
+                  <article class="place-caption" data-place-caption="2" aria-hidden="true">
+                    <span>03 / THE COMMUNITY</span><h3>Better together.</h3><p>Ask first, then make a small place that belongs to everyone nearby.</p>
+                  </article>
+                </div>
+                <div class="place-navigation" role="group" aria-label="Choose a growing place">
+                  <button type="button" data-place-jump="0" aria-label="Show the window box" aria-current="step">01</button><span></span>
+                  <button type="button" data-place-jump="1" aria-label="Show the balcony">02</button><span></span>
+                  <button type="button" data-place-jump="2" aria-label="Show the community garden">03</button>
+                  <b id="place-progress-label">01 / 03 · WINDOW BOX</b>
+                </div>
+                <a class="place-action" href="#plan">Find your first place <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="place-world-window" aria-hidden="true">
+                <img class="place-cinematic-art" data-src="assets/bloom-cinematic-07-corridor.jpg" alt="" width="1672" height="941" />
+                <svg class="place-panorama" viewBox="0 0 3000 900" preserveAspectRatio="xMidYMid slice" role="presentation">
+                  <defs>
+                    <linearGradient id="place-atmosphere" x1="0" y1="0" x2="3000" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#F5EEDB"/><stop offset=".47" stop-color="#D8E5D8"/><stop offset="1" stop-color="#B9D0B5"/></linearGradient>
+                    <linearGradient id="place-ground" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#A2B78D"/><stop offset="1" stop-color="#728E68"/></linearGradient>
+                  </defs>
+                  <rect width="3000" height="900" fill="url(#place-atmosphere)"/>
+                  <circle cx="420" cy="180" r="104" fill="#F1D182" fill-opacity=".74"/><circle cx="1510" cy="168" r="94" fill="#EFCB72" fill-opacity=".75"/><circle cx="2590" cy="188" r="98" fill="#F2D68D" fill-opacity=".77"/>
+                  <g class="place-distant-hills"><path d="M0 552C180 460 321 488 461 550C614 618 787 467 1000 520V900H0V552Z" fill="#B7C7A8" fill-opacity=".77"/><path d="M1000 528C1192 477 1337 523 1502 558C1663 592 1850 438 2000 502V900H1000V528Z" fill="#A8BEA0" fill-opacity=".79"/><path d="M2000 520C2183 474 2288 516 2443 562C2626 615 2789 479 3000 500V900H2000V520Z" fill="#96B38D" fill-opacity=".83"/></g>
+                  <g class="place-environment place-environment-window" data-place-art="0">
+                    <path d="M106 88H852V536H106z" fill="#F4F3E8" fill-opacity=".11" stroke="#F9F6EC" stroke-width="28"/><path d="M128 109H830V511H128z" fill="#EDF1E6" fill-opacity=".12" stroke="#72836F" stroke-opacity=".76" stroke-width="8"/><path d="M477 112V511M132 315H826" fill="none" stroke="#72836F" stroke-opacity=".47" stroke-width="6"/>
+                    <path d="M65 566H893" fill="none" stroke="#7F8F78" stroke-width="16" stroke-linecap="round"/><path d="M205 582H754L704 716H257L205 582Z" fill="#B87554"/><path d="M188 565H770" fill="none" stroke="#87563E" stroke-width="21" stroke-linecap="round"/>
+                    <path d="M480 564V322M480 476C385 371 311 407 341 466C364 511 431 512 480 476ZM483 409C566 326 651 355 620 414C596 458 531 452 483 409Z" fill="#66845C" stroke="#54744E" stroke-width="19" stroke-linecap="round"/>
+                    <g class="place-petal"><ellipse cx="480" cy="279" rx="22" ry="58" fill="#D98263"/><ellipse cx="480" cy="279" rx="22" ry="58" fill="#E9AA70" transform="rotate(60 480 322)"/><ellipse cx="480" cy="279" rx="22" ry="58" fill="#D98263" transform="rotate(120 480 322)"/><circle cx="480" cy="322" r="25" fill="#E9BF62"/></g>
+                    <path d="M834 525V226M834 355C780 304 739 322 752 352C762 376 801 377 834 355Z" fill="#77936C" stroke="#7E9A70" stroke-width="13" stroke-linecap="round"/>
+                  </g>
+                  <g class="place-environment place-environment-balcony" data-place-art="1">
+                    <path d="M1050 478C1200 381 1300 404 1414 466C1530 529 1631 421 1746 443C1840 461 1916 430 2000 464V900H1000V522Z" fill="#9DB69A" fill-opacity=".5"/>
+                    <path d="M1056 566H1945M1112 611H1885M1184 657H1824" fill="none" stroke="#EEF0E0" stroke-opacity=".7" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M1120 481V722M1878 481V722" fill="none" stroke="#718A70" stroke-width="15"/>
+                    <path d="M1380 565H1628L1593 738H1418L1380 565Z" fill="#C47B55"/><path d="M1360 554H1648" fill="none" stroke="#8F5E43" stroke-width="22" stroke-linecap="round"/>
+                    <path d="M1505 552V277M1505 453C1411 361 1337 398 1366 455C1390 500 1457 502 1505 453ZM1508 383C1591 300 1676 329 1645 388C1621 432 1556 426 1508 383Z" fill="#648259" stroke="#52734D" stroke-width="19" stroke-linecap="round"/>
+                    <g class="place-petal"><ellipse cx="1505" cy="236" rx="22" ry="58" fill="#D98263"/><ellipse cx="1505" cy="236" rx="22" ry="58" fill="#E9AA70" transform="rotate(60 1505 279)"/><ellipse cx="1505" cy="236" rx="22" ry="58" fill="#D98263" transform="rotate(120 1505 279)"/><circle cx="1505" cy="279" r="25" fill="#E9BF62"/></g>
+                    <path d="M1015 263H1980" fill="none" stroke="#EBEFE0" stroke-opacity=".75" stroke-width="3"/>
+                  </g>
+                  <g class="place-environment place-environment-community" data-place-art="2">
+                    <path d="M2023 478C2153 407 2288 447 2398 487C2525 533 2710 409 2990 474V900H2000V505Z" fill="#8EAD83" fill-opacity=".62"/>
+                    <path d="M2088 580H2894" fill="none" stroke="#56764D" stroke-opacity=".72" stroke-width="8"/><path d="M2152 498V736M2312 486V736M2472 486V736M2632 486V736M2792 493V736" fill="none" stroke="#718964" stroke-opacity=".72" stroke-width="8"/>
+                    <path d="M2100 684H2900L2813 822H2181L2100 684Z" fill="#A46B49"/><path d="M2085 674H2915" fill="none" stroke="#764D3B" stroke-width="19" stroke-linecap="round"/>
+                    <path d="M2300 677V430M2300 594C2230 522 2177 548 2198 591C2215 624 2264 628 2300 594ZM2303 532C2366 468 2430 490 2407 535C2389 568 2340 566 2303 532Z" fill="#638158" stroke="#55764D" stroke-width="16" stroke-linecap="round"/>
+                    <path d="M2585 677V376M2585 574C2501 492 2436 525 2461 573C2481 611 2541 612 2585 574ZM2589 496C2662 422 2736 448 2710 500C2689 538 2632 536 2589 496Z" fill="#64845A" stroke="#56794F" stroke-width="18" stroke-linecap="round"/>
+                    <path d="M2780 677V493M2780 614C2729 558 2687 580 2703 611C2716 635 2750 638 2780 614Z" fill="#6C895F" stroke="#5B7D51" stroke-width="14" stroke-linecap="round"/>
+                    <g class="place-petal"><ellipse cx="2300" cy="392" rx="18" ry="48" fill="#D98263"/><ellipse cx="2300" cy="392" rx="18" ry="48" fill="#E9AA70" transform="rotate(60 2300 430)"/><ellipse cx="2300" cy="392" rx="18" ry="48" fill="#D98263" transform="rotate(120 2300 430)"/><circle cx="2300" cy="430" r="21" fill="#E9BF62"/></g>
+                    <g class="place-petal"><ellipse cx="2585" cy="337" rx="20" ry="54" fill="#D98263"/><ellipse cx="2585" cy="337" rx="20" ry="54" fill="#E9AA70" transform="rotate(60 2585 376)"/><ellipse cx="2585" cy="337" rx="20" ry="54" fill="#D98263" transform="rotate(120 2585 376)"/><circle cx="2585" cy="376" r="23" fill="#E9BF62"/></g>
+                  </g>
+                  <g class="place-bees" fill="#E8BE5E"><circle cx="722" cy="315" r="9"/><circle cx="1698" cy="311" r="9"/><circle cx="2852" cy="370" r="9"/></g>
+                </svg>
+              </div>
+              <div class="place-scroll-index"><span>SCROLL TO MOVE THROUGH THE GARDEN</span><b>01 — 03</b></div>
+              <div class="place-progress" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="ritual-world legacy-world" id="legacy-ritual" aria-label="Three ways to join Bloom for Bees Day">
+          <div class="ritual-track">
+            <div class="ritual-stage">
+              <div class="ritual-atmosphere ritual-atmosphere-one" aria-hidden="true"></div>
+              <div class="ritual-atmosphere ritual-atmosphere-two" aria-hidden="true"></div>
+              <div class="ritual-topline"><span>04 / THE RITUAL</span><span>JUNE 07 · START WHERE YOU ARE</span></div>
+              <div class="ritual-copy">
+                <p class="ritual-eyebrow"><span></span> A THOUSAND WAYS TO BEGIN</p>
+                <h2>One day.<br /><em>A thousand ways<br />to begin.</em></h2>
+                <p class="ritual-intro">Keep it small, keep it local, make it your own. June 7 is simply a lovely day to start.</p>
+                <div class="ritual-chapters">
+                  <article class="ritual-chapter" data-ritual-chapter="0">
+                    <span>STEP 01 · THE CHOICE</span><h3>Choose what <em>belongs here.</em></h3><p>Look for a flower that suits your local climate and the sun in your space.</p>
+                  </article>
+                  <article class="ritual-chapter" data-ritual-chapter="1" aria-hidden="true">
+                    <span>STEP 02 · THE PLANTING</span><h3>Make room to <em>grow.</em></h3><p>Give your bloom a place you can care for. A pot is plenty to begin.</p>
+                  </article>
+                  <article class="ritual-chapter" data-ritual-chapter="2" aria-hidden="true">
+                    <span>STEP 03 · THE INVITATION</span><h3>Let the good thing <em>travel.</em></h3><p>Invite a friend, family member, or class to plant a flower with you.</p>
+                  </article>
+                </div>
+                <div class="ritual-navigation" role="group" aria-label="Choose, plant, and share">
+                  <button type="button" data-ritual-jump="0" aria-label="Show step one: choose" aria-current="step">01</button><span></span>
+                  <button type="button" data-ritual-jump="1" aria-label="Show step two: plant">02</button><span></span>
+                  <button type="button" data-ritual-jump="2" aria-label="Show step three: share">03</button>
+                  <b><span id="ritual-count">01</span> / 03</b>
+                </div>
+                <a class="ritual-link" href="#plan">Make your plan <span aria-hidden="true">↗</span></a>
+              </div>
+              <div class="ritual-art" aria-hidden="true">
+                <img class="ritual-cinematic-art" data-src="assets/bloom-cinematic-08-invitation.jpg" alt="" width="1672" height="941" />
+                <div class="ritual-big-word" id="ritual-word">CHOOSE</div>
+                <svg class="ritual-orbit" viewBox="0 0 800 800" fill="none">
+                  <circle cx="400" cy="400" r="285" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+                  <circle cx="400" cy="400" r="206" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
+                  <path class="ritual-path" pathLength="1" d="M400 90C568 90 710 232 710 400C710 568 568 710 400 710C232 710 90 568 90 400C90 232 232 90 400 90Z" stroke="#F1D282" stroke-width="3" stroke-linecap="round"/>
+                  <g class="ritual-flower"><path d="M400 400C359 332 369 283 400 283C431 283 441 332 400 400ZM400 400C435 324 481 307 501 333C521 359 487 397 400 400ZM400 400C483 390 520 418 507 448C494 478 446 467 400 400ZM400 400C453 471 444 520 413 523C382 526 366 479 400 400ZM400 400C366 478 319 493 298 467C277 441 310 405 400 400ZM400 400C315 412 279 383 293 353C307 323 354 334 400 400ZM400 400C348 326 361 279 392 277C423 275 437 323 400 400Z" fill="#EFAF86" fill-opacity=".9"/><circle cx="400" cy="400" r="31" fill="#E9C568"/><circle cx="400" cy="400" r="13" fill="#81563A"/></g>
+                  <circle class="ritual-orbit-bee" cx="400" cy="90" r="12" fill="#F1D282"/>
+                </svg>
+                <span class="ritual-art-label">ONE FLOWER AT A TIME</span>
+              </div>
+              <div class="ritual-progress" aria-hidden="true"><span></span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="planner-section" id="plan" data-experience-section="plan">
+          <div class="planner-layout section-wrap">
+            <div class="planner-copy">
+              <p class="eyebrow"><span class="eyebrow-line"></span> Your bloom starts here</p>
+              <h2>Make a plan<br />for <em>one little bloom.</em></h2>
+              <p>Choose what you’d like to plant and where it will grow. We’ll turn it into a personal June 7 plan you can keep, share, or save in your garden.</p>
+              <div class="countdown-card">
+                <span class="countdown-icon" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.7"/><path d="M16 8v8l5 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 3v5m-14-5v5M5 11h22" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <div><span class="countdown-label">Next Bloom for Bees Day</span><strong id="countdown">June 7</strong><small id="countdown-note">A little time to get ready.</small></div>
+                <span class="countdown-flower" aria-hidden="true">✿</span>
+              </div>
+              <div class="privacy-note"><span aria-hidden="true">⌑</span><span><strong>Your plan stays yours.</strong> Save it here or keep it in your private garden account.</span></div>
+            </div>
+
+            <div class="planner-card" data-tilt>
+              <div class="planner-card-heading"><span class="planner-card-icon" aria-hidden="true">✿</span><div><span class="planner-step">A PERSONAL GARDEN PROMISE</span><h3>Let’s make it official.</h3></div></div>
+              <form id="plan-form">
+                <label for="flower">What would you like to plant?</label>
+                <select id="flower" name="flower">
+                <option value="a flower suited to my area">I’ll find a flower suited to my area</option>
+                  <option value="a sunflower">A sunflower</option><option value="lavender">Lavender</option><option value="bee balm">Bee balm</option><option value="another bee-friendly flower">Another bee-friendly flower</option>
+                </select>
+                <label for="place">Where will it grow?</label>
+                <select id="place" name="place">
+                  <option value="a pot or window box">A pot or window box</option><option value="my garden">My garden</option><option value="a school or community space">A school or community space</option>
+                </select>
+                <p class="form-hint">Choose a flower suited to your growing conditions. Planting somewhere shared? Ask first.</p>
+                <button class="button button-primary button-full" type="submit">Create my bloom plan <span aria-hidden="true">↗</span></button>
+              </form>
+              <div id="saved-plan" class="saved-plan" aria-live="polite" hidden>
+                <div class="saved-plan-top"><span class="saved-check" aria-hidden="true">✓</span><span class="saved-label">Your plan is ready</span><button id="edit-plan" class="edit-button" type="button">Edit plan</button></div>
+                <p id="plan-summary" class="plan-summary"></p>
+                <div class="progress-block"><div class="progress-copy"><span>Your bloom journey</span><strong id="progress-label">Step 1 of 2</strong></div><div class="progress-track"><span id="progress-fill"></span></div><div class="progress-labels"><span>Plan made</span><span>Flower planted</span></div></div>
+                <div class="plant-status" id="plant-status"></div>
+                <div class="saved-actions"><button id="planted-toggle" class="button button-dark" type="button">I planted my flower <span aria-hidden="true">✿</span></button><button id="share-plan" class="button button-outline" type="button">Share plan <span aria-hidden="true">↗</span></button><button id="download-plan" class="download-button" type="button">Download keepsake</button><button id="save-to-account" class="download-button save-account-button" type="button">Save to my account</button></div>
+                <p class="local-storage-note">Saved privately in this browser. No account needed.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="faq-section section-wrap" id="faq" data-experience-section="faq">
+          <div class="faq-heading">
+            <p class="eyebrow"><span class="eyebrow-line"></span> Good to know</p>
+            <h2>Keep it <em>simple.</em></h2>
+            <p>A good tradition should be easy to join. Start wherever you are.</p>
+          </div>
+          <div class="faq-list" data-reveal>
+            <details class="faq-item"><summary>Do I need a garden?</summary><p>No. A pot or window box can be a place to begin. Choose a plant that suits your light and growing conditions.</p></details>
+            <details class="faq-item"><summary>Which flower should I choose?</summary><p>Look for a flower that grows well where you live and is useful to local pollinators. A local nursery or native-plant guide can help you choose.</p></details>
+            <details class="faq-item"><summary>Can my school or community join?</summary><p>Absolutely. Choose a shared spot together, ask the people responsible for it, and make planting day a small community celebration.</p></details>
+            <details class="faq-item"><summary>Does my plan get posted publicly?</summary><p>No. Your plan is saved in your browser on your device. It isn’t sent to a server or shared unless you choose to share it.</p></details>
+          </div>
+        </section>
+
+        <section class="share-section" id="share" data-experience-section="closing">
+          <canvas class="share-pollen-field" aria-hidden="true"></canvas>
+          <div class="share-flower" aria-hidden="true">✿</div>
+          <div class="share-inner section-wrap">
+            <div class="share-copy">
+              <p class="eyebrow closing-eyebrow">PASS THE PETALS · JUNE 07</p>
+              <h2>Good ideas<br />grow <em>together.</em></h2>
+              <p>Invite a friend, your class, or your community to plant one flower on June 7. The next garden could start with you.</p>
+              <button id="share-challenge" class="button button-cream" type="button" data-magnetic>Invite someone to join <span aria-hidden="true">↗</span></button>
+              <span id="share-feedback" class="share-feedback" aria-live="polite"></span>
+            </div>
+            <div class="share-date-card" aria-hidden="true"><span>SEE YOU</span><strong>JUN<br />07</strong><span>AND EVERY YEAR</span></div>
+          </div>
+          <div class="closing-bottomline section-wrap"><span>ONE BLOOM AT A TIME</span><a href="#top">BACK TO THE BEGINNING ↑</a></div>
+        </section>
+      </div>
+
+      <section id="app-shell" class="app-shell" aria-label="Bloom for Bees garden app" hidden>
+        <div class="app-frame">
+          <aside class="app-sidebar" aria-label="Workspace navigation">
+            <div class="sidebar-identity"><span class="sidebar-mark" aria-hidden="true">✿</span><span><strong>Bloom for Bees</strong><small>YOUR GARDEN SPACE</small></span></div>
+            <div class="sidebar-label">WORKSPACE</div>
+            <nav class="sidebar-nav" aria-label="App navigation">
+              <button type="button" class="side-link is-current" data-view="overview"><span class="side-icon" aria-hidden="true">◫</span>Overview</button>
+              <button type="button" class="side-link" data-view="garden"><span class="side-icon" aria-hidden="true">❋</span>My garden</button>
+              <button type="button" class="side-link" data-view="guide"><span class="side-icon" aria-hidden="true">⌕</span>Bloom guide</button>
+              <button type="button" class="side-link" data-view="settings"><span class="side-icon" aria-hidden="true">⚙</span>Settings</button>
+              <button type="button" class="side-link" data-view="help"><span class="side-icon" aria-hidden="true">?</span>Help & tips</button>
+            </nav>
+            <div class="sidebar-bottom">
+              <div class="sidebar-event"><span class="sidebar-event-icon" aria-hidden="true">✿</span><span><small>NEXT BLOOM DAY</small><strong id="sidebar-countdown">June 7</strong></span></div>
+              <button id="sidebar-signout" class="sidebar-signout" type="button">Sign out <span aria-hidden="true">↗</span></button>
+            </div>
+          </aside>
+
+          <div class="app-content-wrap">
+            <div class="offline-banner" id="offline-banner" role="status" hidden><span aria-hidden="true">◌</span> You’re offline. Your saved garden will appear when the connection returns.</div>
+            <div class="app-content">
+              <header class="app-mobile-header">
+                <a class="brand" href="#top" aria-label="Bloom for Bees"><span class="brand-mark" aria-hidden="true">✿</span><span class="brand-wordmark">Bloom for Bees<span>YOUR GARDEN SPACE</span></span></a>
+                <button id="mobile-profile" class="mobile-avatar" type="button" aria-label="Open settings"><span id="mobile-avatar-letter">B</span></button>
+              </header>
+              <div id="app-loading" class="app-loading" aria-label="Loading your garden" hidden>
+                <div class="skeleton skeleton-title"></div><div class="skeleton-grid"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div><div class="skeleton skeleton-panel"></div>
+              </div>
+              <div id="app-error" class="app-error" role="alert" hidden><span aria-hidden="true">☁</span><div><strong>Your garden couldn’t load.</strong><p id="app-error-text">Check your connection and try again.</p></div><button id="retry-load" class="text-button" type="button">Try again</button></div>
+
+              <section class="app-view" data-view-panel="overview" aria-labelledby="welcome-title">
+                <div class="workspace-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> YOUR LITTLE CORNER OF THE WORLD</p><h1 id="welcome-title">Good morning, <em id="welcome-name">gardener.</em></h1><p class="workspace-subtitle">A few minutes in the garden can change the whole day.</p></div><button class="button button-primary" type="button" data-open-garden><span aria-hidden="true">＋</span> Add a garden plan</button></div>
+                <article class="season-card" data-reveal data-tilt><div class="season-art" aria-hidden="true"><span>✿</span><i>✳</i><b>✦</b></div><div class="season-copy"><span class="season-kicker">A DATE TO GROW TOWARD</span><h2>Bloom for Bees Day is <em id="event-date">June 7, 2027</em></h2><p id="event-copy">Choose one small thing to grow. Give it a sunny spot and a little care.</p></div><div class="season-count"><strong id="days-left">—</strong><span>days to bloom</span></div></article>
+                <div class="stats-grid" aria-label="Garden progress">
+                  <article class="stat-card" data-reveal><span class="stat-icon stat-icon-green" aria-hidden="true">✿</span><div><span>GARDEN PLANS</span><strong id="stat-plans">—</strong><small>Every small start counts</small></div></article>
+                  <article class="stat-card" data-reveal><span class="stat-icon stat-icon-gold" aria-hidden="true">✓</span><div><span>IN BLOOM</span><strong id="stat-planted">—</strong><small>Flowers you’ve planted</small></div></article>
+                  <article class="stat-card" data-reveal><span class="stat-icon stat-icon-coral" aria-hidden="true">✦</span><div><span>YOUR NEXT STEP</span><strong id="stat-next">Start here</strong><small id="stat-next-note">Add a plan when you’re ready</small></div></article>
+                </div>
+                <div class="dashboard-lower-grid" data-reveal>
+                  <section class="panel recent-panel"><div class="panel-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> A GENTLE REMINDER</p><h2>Your garden plans</h2></div><button class="text-button" type="button" data-view="garden">See all <span aria-hidden="true">→</span></button></div><div id="recent-gardens" class="recent-gardens"></div></section>
+                  <aside class="tip-card" data-tilt><span class="tip-symbol" aria-hidden="true">✳</span><span class="tip-label">A LITTLE GARDEN WISDOM</span><h2 id="daily-tip-title">Make a small place for life.</h2><p id="daily-tip-copy">A planter, a sunny windowsill or a shared patch can all be part of a pollinator-friendly garden.</p><button type="button" class="tip-link" data-view="guide">Explore the bloom guide <span aria-hidden="true">↗</span></button></aside>
+                </div>
+              </section>
+
+              <section class="app-view" data-view-panel="garden" aria-labelledby="garden-title" hidden>
+                <div class="workspace-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> YOUR PLANS, ALL IN ONE PLACE</p><h1 id="garden-title">My <em>garden.</em></h1><p class="workspace-subtitle">Keep track of what you’re growing and celebrate every little milestone.</p></div><button class="button button-primary" type="button" data-open-garden><span aria-hidden="true">＋</span> New plan</button></div>
+                <div class="garden-toolbar" data-reveal><label class="search-field"><span aria-hidden="true">⌕</span><span class="visually-hidden">Search garden plans</span><input id="garden-search" type="search" placeholder="Search flowers or notes" autocomplete="off" /></label><label class="filter-select"><span class="visually-hidden">Filter garden plans</span><select id="garden-filter"><option value="all">All plans</option><option value="planned">Not planted yet</option><option value="planted">Planted</option></select></label><label class="filter-select"><span class="visually-hidden">Sort garden plans</span><select id="garden-sort"><option value="recent">Recently updated</option><option value="date">Planting date</option><option value="az">Flower name A–Z</option></select></label></div>
+                <div id="garden-list" class="garden-list" aria-live="polite"></div>
+              </section>
+
+              <section class="app-view" data-view-panel="guide" aria-labelledby="guide-title" hidden>
+                <div class="workspace-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> A MORE WELCOMING GARDEN</p><h1>A little <em>bloom guide.</em></h1><p class="workspace-subtitle">Explore a few familiar choices, then look for flowers that thrive where you live.</p></div></div>
+                <div class="guide-note" data-reveal><span aria-hidden="true">✦</span><p><strong>Start local.</strong> The best plant depends on your region and growing conditions. A local nursery or native-plant guide can help you choose flowers that support pollinators near you.</p></div>
+                <label class="search-field guide-search"><span aria-hidden="true">⌕</span><span class="visually-hidden">Search the bloom guide</span><input id="guide-search" type="search" placeholder="Find a flower or growing condition" autocomplete="off" /></label>
+                <div id="plant-grid" class="plant-grid"></div>
+              </section>
+
+              <section class="app-view" data-view-panel="settings" aria-labelledby="settings-title" hidden>
+                <div class="workspace-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> MAKE THIS SPACE YOURS</p><h1>Profile & <em>settings.</em></h1><p class="workspace-subtitle">Update your details and choose how Bloom for Bees feels.</p></div></div>
+                <div class="settings-layout" data-reveal>
+                  <section class="settings-card"><div class="settings-heading"><span class="settings-icon" aria-hidden="true">◉</span><div><h2>Your profile</h2><p>These details are private to your account.</p></div></div><form id="profile-form" class="settings-form"><label for="profile-name">Name</label><input id="profile-name" name="name" maxlength="60" required autocomplete="name"/><label for="profile-email">Email address</label><input id="profile-email" name="email" type="email" maxlength="254" required autocomplete="email"/><button class="button button-primary" type="submit">Save profile</button></form></section>
+                  <section class="settings-card"><div class="settings-heading"><span class="settings-icon settings-icon-sun" aria-hidden="true">☼</span><div><h2>Appearance</h2><p>Pick a calm space to plan your garden.</p></div></div><label class="setting-row" for="theme-setting"><span><strong>Theme</strong><small>Choose light, dark, or follow your device.</small></span><select id="theme-setting"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label><div class="setting-row"><span><strong>Garden reminder</strong><small id="reminder-description">A browser reminder while this app is open.</small></span><button id="reminder-toggle" class="switch-button" type="button" role="switch" aria-checked="false" aria-label="Garden reminder"><span></span></button></div><label class="setting-date" for="reminder-date">Remind me on</label><input id="reminder-date" type="date" disabled/><p class="settings-footnote">Reminders appear in this browser while Bloom for Bees is open. Push notifications are not sent.</p></section>
+                  <section class="settings-card"><div class="settings-heading"><span class="settings-icon" aria-hidden="true">⌑</span><div><h2>Security</h2><p>Change the password on your account.</p></div></div><form id="password-form" class="settings-form"><label for="current-password">Current password</label><input id="current-password" type="password" required minlength="10" maxlength="128" autocomplete="current-password"/><label for="new-password">New password</label><input id="new-password" type="password" required minlength="10" maxlength="128" autocomplete="new-password"/><p class="settings-footnote">Use at least 10 characters. Changing your password signs out other sessions.</p><button class="button button-outline" type="submit">Update password</button></form></section>
+                  <section class="settings-card danger-card"><div class="settings-heading"><span class="settings-icon settings-icon-danger" aria-hidden="true">!</span><div><h2>Account</h2><p>Deleting your account permanently removes your garden plans.</p></div></div><button id="delete-account" class="button button-danger" type="button">Delete my account</button></section>
+                </div>
+              </section>
+
+              <section class="app-view" data-view-panel="help" aria-labelledby="help-title" hidden>
+                <div class="workspace-heading"><div><p class="eyebrow"><span class="eyebrow-line"></span> HERE WHEN YOU NEED US</p><h1>Help & <em>garden tips.</em></h1><p class="workspace-subtitle">A few answers to keep your next step simple.</p></div></div>
+                <div class="help-layout" data-reveal><section class="panel help-panel"><details class="help-item"><summary>What is Bloom for Bees Day?</summary><p>A yearly invitation to add one pollinator-friendly flower to a place you can care for, and invite someone to grow with you. It’s celebrated on June 7.</p></details><details class="help-item"><summary>How do I choose a flower?</summary><p>Look for plants that suit your local climate, sunlight, and growing space. A local native-plant guide or nursery can help identify flowers that support pollinators near you.</p></details><details class="help-item"><summary>Are my garden plans public?</summary><p>No. Your account and garden plans are private. Your garden data is stored on this device’s local server and is not published publicly.</p></details><details class="help-item"><summary>Can I use this without a garden?</summary><p>Yes. A pot, window box, school space, or community garden can all be a starting place. Ask before planting in a shared space.</p></details><details class="help-item"><summary>What happens to my garden when I sign out?</summary><p>Your garden stays saved with your account. Sign back in on this same local app to continue.</p></details></section><aside class="help-note"><span aria-hidden="true">✿</span><h2>A small start is still a start.</h2><p>One flower at a time. That’s how a garden begins.</p><button class="button button-primary" type="button" data-open-garden>Make a new plan <span aria-hidden="true">↗</span></button></aside></div>
+              </section>
+              <footer class="app-footer"><span>Made with care for gardens of every size.</span><button type="button" id="open-command" class="keyboard-hint"><kbd>⌘</kbd><kbd>K</kbd><span>Quick actions</span></button></footer>
+            </div>
+          </div>
+        </div>
+        <nav class="mobile-tabbar" aria-label="Garden navigation"><button type="button" class="is-current" data-view="overview"><span>◫</span>Home</button><button type="button" data-view="garden"><span>❋</span>Garden</button><button type="button" data-view="guide"><span>⌕</span>Guide</button><button type="button" data-view="settings"><span>⚙</span>Settings</button></nav>
+      </section>
+    </main>
+
+    <footer class="site-footer section-wrap">
+      <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true">✿</span><span class="brand-wordmark">Bloom for Bees<span>DAY · JUNE 7</span></span></a>
+      <p>A little bloom can start a beautiful tradition.</p>
+      <small class="model-credit">A cinematic story built from local garden photography and scroll-driven motion.</small>
+      <a class="back-top" href="#top">Back to the top <span aria-hidden="true">↑</span></a>
+    </footer>
+    <div id="site-toast" class="site-toast" role="status" aria-live="polite"></div>
+
+    <dialog id="auth-dialog" class="app-dialog" aria-labelledby="auth-title">
+      <form id="auth-form" class="dialog-card" novalidate>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button>
+        <span class="dialog-flower" aria-hidden="true">✿</span><p class="eyebrow"><span class="eyebrow-line"></span> YOUR GARDEN, YOURS TO KEEP</p><h2 id="auth-title">Let’s grow <em>something good.</em></h2><p id="auth-intro" class="dialog-intro">Create a free account to keep your garden plans safe on this device.</p>
+        <label id="auth-name-label" for="auth-name">Your name</label><input id="auth-name" name="name" minlength="2" maxlength="60" autocomplete="name" required/>
+        <label for="auth-email">Email address</label><input id="auth-email" name="email" type="email" maxlength="254" autocomplete="email" required/>
+        <label for="auth-password">Password</label><input id="auth-password" name="password" type="password" minlength="10" maxlength="128" autocomplete="new-password" required/><small id="auth-password-hint">Use at least 10 characters.</small>
+        <p id="auth-error" class="form-error" role="alert" hidden></p><button id="auth-submit" class="button button-primary button-full" type="submit">Create my account <span aria-hidden="true">↗</span></button>
+        <p class="auth-switch"><span id="auth-switch-copy">Already have an account?</span> <button type="button" id="auth-switch" class="text-button">Log in</button></p>
+        <p class="privacy-fineprint">Your garden plans stay private. This app stores them on the computer running Bloom for Bees.</p>
+      </form>
+    </dialog>
+
+    <dialog id="garden-dialog" class="app-dialog" aria-labelledby="garden-dialog-title">
+      <form id="garden-form" class="dialog-card garden-form-card" novalidate>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button><p class="eyebrow"><span class="eyebrow-line"></span> A PLAN THAT FITS YOUR LIFE</p><h2 id="garden-dialog-title">Make room for <em>a bloom.</em></h2><p class="dialog-intro">A few details help you remember where you’re starting.</p><input id="garden-id" type="hidden"/>
+        <label for="garden-flower">What would you like to plant?</label><input id="garden-flower" maxlength="100" required placeholder="e.g. A flower suited to my area" list="flower-options"/><datalist id="flower-options"><option value="A flower suited to my area"></option><option value="Sunflower"></option><option value="Lavender"></option><option value="Bee balm"></option><option value="Another bee-friendly flower"></option></datalist>
+        <div class="form-two-column"><div><label for="garden-place">Where will it grow?</label><select id="garden-place" required><option>A pot or window box</option><option>My garden</option><option>A school or community space</option><option>A shared garden</option></select></div><div><label for="garden-sunlight">How much sun?</label><select id="garden-sunlight" required><option>Not sure yet</option><option>Full sun</option><option>Part shade</option><option>Mostly shade</option></select></div></div>
+        <div class="form-two-column"><div><label for="garden-date">Planting date <span class="optional-label">OPTIONAL</span></label><input id="garden-date" type="date"/></div><div><label for="garden-notes">A note to future you <span class="optional-label">OPTIONAL</span></label><input id="garden-notes" maxlength="500" placeholder="A little reminder…"/></div></div>
+        <p id="garden-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button button-subtle" data-close-dialog>Cancel</button><button id="garden-submit" class="button button-primary" type="submit">Save garden plan <span aria-hidden="true">↗</span></button></div>
+      </form>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="app-dialog" aria-labelledby="confirm-title">
+      <form id="confirm-form" class="dialog-card confirm-card"><button class="dialog-close" type="button" data-close-dialog aria-label="Close">×</button><span class="confirm-mark" aria-hidden="true">!</span><p class="eyebrow"><span class="eyebrow-line"></span> PLEASE CONFIRM</p><h2 id="confirm-title">Delete this garden plan?</h2><p id="confirm-copy" class="dialog-intro">This plan will be removed from your garden.</p><label id="confirm-email-label" for="confirm-email" hidden>Type your email address to confirm</label><input id="confirm-email" type="email" autocomplete="off" hidden/><p id="confirm-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="button button-subtle" data-close-dialog>Keep it</button><button id="confirm-submit" class="button button-danger" type="submit">Delete plan</button></div></form>
+    </dialog>
+
+    <dialog id="command-dialog" class="app-dialog command-dialog" aria-labelledby="command-title">
+      <div class="command-card"><label id="command-title" for="command-search"><span aria-hidden="true">⌕</span><span class="visually-hidden">Search quick actions</span><input id="command-search" type="search" placeholder="Go to a page or take an action…" autocomplete="off"/><kbd>ESC</kbd></label><div class="command-results" id="command-results"><button type="button" data-command="garden"><span>❋</span><span><strong>My garden</strong><small>Search and manage your plans</small></span><kbd>G</kbd></button><button type="button" data-command="guide"><span>✿</span><span><strong>Bloom guide</strong><small>Browse flower ideas</small></span><kbd>B</kbd></button><button type="button" data-command="new"><span>＋</span><span><strong>New garden plan</strong><small>Add something to grow</small></span><kbd>N</kbd></button><button type="button" data-command="settings"><span>⚙</span><span><strong>Settings</strong><small>Profile and preferences</small></span><kbd>S</kbd></button></div><div class="command-foot"><span>↑↓ to navigate · Enter to select</span><kbd>⌘ K</kbd></div></div>
+    </dialog>
+  </body>
+</html>

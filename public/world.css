@@ -1,0 +1,1611 @@
+/* Bloom for Bees — a continuous, scroll-led garden world. */
+:root {
+  --world-cream: #f5f2e9;
+  --world-paper: #fbfaf5;
+  --world-ink: #1f382b;
+  --world-green: #153728;
+  --world-deep: #10271d;
+  --world-gold: #efd181;
+  --world-clay: #c97859;
+  --world-header: var(--header-height, 78px);
+}
+#marketing-site .opening-world,
+#marketing-site .growing-world,
+#marketing-site .place-world,
+#marketing-site .ritual-world { position: relative; overflow: clip; isolation: isolate; }
+#marketing-site .opening-world { z-index: 1; background: var(--world-deep); color: #fffdf6; }
+#marketing-site .opening-track { position: relative; min-height: min(820px, calc(100svh - var(--world-header))); }
+#marketing-site .opening-stage { position: relative; display: flex; min-height: min(820px, calc(100svh - var(--world-header))); flex-direction: column; justify-content: center; overflow: hidden; padding: 90px max(6vw, calc((100vw - 1380px) / 2)) 160px; background: #142b1e; isolation: isolate; }
+#marketing-site .opening-image-layer,
+#marketing-site .opening-shade,
+#marketing-site .opening-halo { position: absolute; inset: 0; pointer-events: none; }
+#marketing-site .opening-image-layer { z-index: -3; overflow: hidden; background: radial-gradient(circle at 72% 38%, #273d24 0%, #102217 38%, #060907 82%); }
+#marketing-site .opening-webgl-canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; outline: none; }
+#marketing-site .opening-image-layer img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 48%; transform: translate3d(var(--opening-photo-x, 0px),var(--opening-photo-y, 0px),0) scale(var(--opening-photo-scale, 1.08)); transform-origin: 57% 52%; will-change: transform; }
+#marketing-site .opening-shade { z-index: -2; background: linear-gradient(90deg,rgba(9,21,14,.79),rgba(9,21,14,.46) 40%,rgba(9,21,14,.06) 76%),linear-gradient(0deg,rgba(8,22,14,.83),transparent 45%,rgba(8,22,14,.2)); }
+#marketing-site .opening-halo { z-index: -1; border: 1px solid rgba(239,209,129,.21); border-radius: 50%; inset: auto; width: min(72vw,1050px); aspect-ratio: 1; right: -15vw; top: -42vw; transform: translate3d(0,var(--opening-halo-y,0px),0) scale(var(--opening-halo-scale,1)); }
+#marketing-site .opening-halo-two { width: min(48vw,720px); right: -4vw; top: -29vw; border-color: rgba(255,252,234,.13); }
+#marketing-site .opening-topline { position: absolute; z-index: 4; top: 27px; right: max(6vw,calc((100vw - 1380px)/2)); left: max(6vw,calc((100vw - 1380px)/2)); display: flex; justify-content: space-between; gap: 20px; color: rgba(255,253,246,.7); font-size: 8px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+#marketing-site .opening-coordinate { position: absolute; z-index: 4; top: 47%; right: 24px; color: rgba(255,253,246,.62); font-size: 7px; font-weight: 700; letter-spacing: .16em; writing-mode: vertical-rl; }
+#marketing-site .opening-copy { position: relative; z-index: 4; width: min(850px,70vw); transform: translate3d(var(--opening-copy-x,0px),var(--opening-copy-y,0px),0) scale(var(--opening-copy-scale,1)); transform-origin: left center; opacity: var(--opening-copy-opacity,1); will-change: transform,opacity; }
+#marketing-site .opening-eyebrow,
+#marketing-site .growing-eyebrow,
+#marketing-site .place-eyebrow,
+#marketing-site .ritual-eyebrow { display: flex; align-items: center; gap: 11px; margin: 0 0 23px; color: rgba(255,253,246,.75); font-size: 8px; font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
+#marketing-site .opening-eyebrow > span,
+#marketing-site .growing-eyebrow > span,
+#marketing-site .place-eyebrow > span,
+#marketing-site .ritual-eyebrow > span { width: 25px; height: 1px; background: var(--world-gold); }
+#marketing-site .opening-copy h1 { max-width: 850px; margin: 0; color: #fffdf6; font-size: clamp(70px,8.6vw,132px); font-weight: 500; letter-spacing: -.092em; line-height: .79; }
+#marketing-site .opening-copy h1 em { color: var(--world-gold); font-family: var(--exp-serif); font-weight: 600; }
+#marketing-site .opening-description { max-width: 470px; margin: 28px 0 0; color: rgba(255,253,246,.78); font-size: 14px; line-height: 1.85; }
+#marketing-site .opening-actions { display: flex; align-items: center; gap: 24px; margin-top: 28px; }
+#marketing-site .opening-actions .button { min-height: 48px; }
+#marketing-site .opening-actions .button-link { color: rgba(255,253,246,.83); }
+#marketing-site .opening-actions .button-link span { color: var(--world-gold); }
+#marketing-site .opening-afterthought { height: 75px; max-height: 75px; margin: 16px 0 0; overflow: hidden; color: #fffdf6; font-family: var(--exp-serif); font-size: clamp(18px,2.1vw,29px); line-height: 1.28; opacity: var(--opening-after-opacity,0); transform: translate3d(0,var(--opening-after-y,16px),0); transition: opacity .25s linear; }
+#marketing-site .opening-afterthought > span { color: var(--world-gold); font-style: italic; }
+#marketing-site .opening-stage[data-opening-state="1"] .opening-description { opacity: .7; }
+#marketing-site .opening-date { position: absolute; z-index: 4; top: 15%; right: max(10vw,calc((100vw - 1230px)/2)); left: auto; display: flex; width: 132px; height: 168px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; border: 1px solid rgba(255,255,255,.7); background: rgba(249,247,237,.96); color: var(--world-ink); box-shadow: 0 19px 45px rgba(8,20,12,.19); transform: translate3d(var(--opening-date-x,0px),var(--opening-date-y,0px),0) rotate(5deg); will-change: transform; }
+#marketing-site .opening-date > span,
+#marketing-site .opening-date > small { color: #6d7969; font-size: 6px; font-weight: 700; letter-spacing: .14em; }
+#marketing-site .opening-date strong { color: var(--world-ink); font-family: var(--exp-serif); font-size: 28px; line-height: .9; text-align: center; }
+#marketing-site .opening-caption { position: absolute; z-index: 4; right: max(7vw,calc((100vw - 1370px)/2)); bottom: 174px; display: flex; align-items: center; gap: 13px; min-width: 272px; padding: 13px 15px; background: rgba(249,247,237,.91); color: var(--world-ink); font-size: 9px; line-height: 1.6; box-shadow: 0 12px 36px rgba(0,0,0,.12); transform: translate3d(0,var(--opening-caption-y,0px),0); }
+#marketing-site .opening-caption > span:last-child { margin-left: auto; color: var(--world-clay); font-size: 14px; }
+#marketing-site .opening-caption-mark { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; background: #f4ebd3; color: var(--world-clay); font-size: 15px; }
+#marketing-site .opening-facts { position: absolute; z-index: 5; right: 0; bottom: 0; left: 0; display: grid; min-height: 112px; grid-template-columns: 1.15fr 1fr 1fr 1fr; align-items: center; gap: 20px; padding: 18px max(6vw,calc((100vw - 1380px)/2)); border-top: 1px solid rgba(255,253,246,.21); background: linear-gradient(90deg,rgba(12,33,23,.92),rgba(12,33,23,.68)); color: #fffdf6; opacity: var(--opening-facts-opacity,.92); transform: translate3d(0,var(--opening-facts-y,0px),0); }
+#marketing-site .opening-facts-intro { color: var(--world-gold); font-family: var(--exp-serif); font-size: 15px; font-style: italic; line-height: 1.35; }
+#marketing-site .opening-fact { display: flex; align-items: center; gap: 13px; font-size: 10px; font-weight: 700; }
+#marketing-site .opening-fact > b { color: var(--world-gold); font-family: var(--exp-serif); font-size: 24px; font-weight: 600; }
+#marketing-site .opening-fact small { display: block; margin-top: 4px; color: rgba(255,253,246,.58); font-size: 8px; font-weight: 400; }
+#marketing-site .opening-progress { position: absolute; z-index: 6; top: 0; right: 0; left: 0; height: 2px; background: rgba(255,255,255,.2); }
+#marketing-site .opening-progress span { display: block; width: 100%; height: 100%; background: var(--world-gold); transform: scaleX(var(--opening-progress,0)); transform-origin: left; }
+#marketing-site .opening-word { position: absolute; z-index: 1; right: -2vw; bottom: 116px; color: transparent; font-size: clamp(170px,29vw,440px); font-weight: 700; letter-spacing: -.13em; line-height: .72; -webkit-text-stroke: 1px rgba(255,253,246,.23); transform: translate3d(var(--opening-word-x,0px),var(--opening-word-y,0px),0) scale(var(--opening-word-scale,1)); transform-origin: right bottom; pointer-events: none; will-change: transform; }
+#marketing-site .opening-world.is-enhanced .opening-track { height: 215svh; }
+#marketing-site .opening-world.is-enhanced .opening-stage { position: sticky; top: var(--world-header); height: calc(100svh - var(--world-header)); min-height: 590px; }
+#marketing-site .opening-world.is-enhanced .opening-copy h1 { transform: translate3d(0,var(--opening-title-y,0px),0); }
+#marketing-site .opening-world.is-enhanced .opening-description { transition: opacity .18s linear; }
+@keyframes world-entry-copy { from { opacity: 0; transform: translate3d(0,24px,0) scale(.985); } to { opacity: var(--opening-copy-opacity,1); transform: translate3d(var(--opening-copy-x,0px),var(--opening-copy-y,0px),0) scale(var(--opening-copy-scale,1)); } }
+@keyframes world-entry-date { from { opacity: 0; transform: translate3d(0,20px,0) rotate(10deg); } to { opacity: 1; transform: translate3d(var(--opening-date-x,0px),var(--opening-date-y,0px),0) rotate(5deg); } }
+@keyframes world-entry-caption { from { opacity: 0; transform: translate3d(0,14px,0); } to { opacity: 1; transform: translate3d(0,var(--opening-caption-y,0px),0); } }
+.motion-entering #marketing-site .opening-copy { animation: world-entry-copy .78s .06s cubic-bezier(.2,.7,.25,1) both; }
+.motion-entering #marketing-site .opening-date { animation: world-entry-date .72s .16s cubic-bezier(.2,.7,.25,1) both; }
+.motion-entering #marketing-site .opening-caption { animation: world-entry-caption .7s .23s cubic-bezier(.2,.7,.25,1) both; }
+
+/* One pinned canvas carries the same plant from seed to pollinator. */
+#marketing-site .growing-world { z-index: 2; background: var(--world-deep); color: #fffdf6; }
+#marketing-site .growing-track { position: relative; }
+#marketing-site .growing-stage { position: relative; display: grid; min-height: 760px; grid-template-columns: minmax(380px,.83fr) minmax(0,1.17fr); align-items: center; gap: 2vw; overflow: hidden; padding: 78px max(7vw,calc((100vw - 1370px)/2)); background: radial-gradient(ellipse at 69% 48%,#284b36 0%,#193929 34%,#10271d 74%); isolation: isolate; }
+#marketing-site .growing-photo { position: absolute; z-index: -2; inset: 0; overflow: hidden; opacity: var(--growing-photo-opacity,.19); }
+#marketing-site .growing-photo::after { position: absolute; inset: 0; background: linear-gradient(90deg,#10271d 0%,rgba(16,39,29,.86) 42%,rgba(16,39,29,.28) 100%),linear-gradient(0deg,rgba(11,26,19,.88),transparent 52%); content: ""; }
+#marketing-site .growing-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 64% 50%; filter: saturate(.74); transform: scale(var(--growing-photo-scale,1.1)); transform-origin: center; }
+#marketing-site .growing-light { position: absolute; z-index: -1; inset: 0; background: radial-gradient(ellipse at 67% 42%,rgba(232,205,131,.16),transparent 42%); opacity: var(--growing-light-opacity,.4); pointer-events: none; }
+#marketing-site .growing-topline { position: absolute; z-index: 6; top: 24px; right: max(6vw,calc((100vw - 1370px)/2)); left: max(6vw,calc((100vw - 1370px)/2)); display: flex; justify-content: space-between; color: rgba(255,253,246,.58); font-size: 7px; font-weight: 700; letter-spacing: .16em; }
+#marketing-site .growing-copy { position: relative; z-index: 4; width: 100%; max-width: 550px; transform: translate3d(var(--growing-copy-x,0px),var(--growing-copy-y,0px),0); }
+#marketing-site .growing-eyebrow { color: rgba(255,253,246,.67); }
+#marketing-site .growing-chapters { display: grid; min-height: 315px; }
+#marketing-site .growing-chapter { grid-area: 1/1; align-self: center; max-width: 510px; opacity: 0; visibility: hidden; transform: translate3d(0,24px,0); transition: opacity .45s cubic-bezier(.2,.7,.25,1),transform .65s cubic-bezier(.2,.7,.25,1); }
+#marketing-site .growing-chapter[aria-hidden="false"] { opacity: 1; visibility: visible; transform: translate3d(0,0,0); }
+#marketing-site .growing-kicker { display: block; margin-bottom: 19px; color: var(--world-gold); font-size: 9px; font-weight: 700; letter-spacing: .17em; }
+#marketing-site .growing-kicker i { margin-left: 7px; color: rgba(255,253,246,.63); font-size: 8px; font-style: normal; }
+#marketing-site .growing-chapter h2 { margin: 0; color: #fffdf6; font-size: clamp(47px,5.7vw,83px); font-weight: 500; letter-spacing: -.087em; line-height: .89; }
+#marketing-site .growing-chapter h2 em { color: var(--world-gold); font-family: var(--exp-serif); font-weight: 600; }
+#marketing-site .growing-chapter p { max-width: 415px; margin: 22px 0 0; color: rgba(255,253,246,.75); font-size: 13px; line-height: 1.85; }
+#marketing-site .growing-navigation { display: flex; align-items: center; gap: 10px; margin-top: 29px; }
+#marketing-site .growing-navigation button,
+#marketing-site .place-navigation button,
+#marketing-site .ritual-navigation button { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: transparent; color: #fffdf6; cursor: pointer; font: 700 8px var(--exp-sans); transition: background .25s ease,color .25s ease,border-color .25s ease,transform .25s ease; }
+#marketing-site .growing-navigation button:hover,
+#marketing-site .growing-navigation button[aria-current="step"],
+#marketing-site .ritual-navigation button:hover,
+#marketing-site .ritual-navigation button[aria-current="step"] { border-color: var(--world-gold); background: var(--world-gold); color: var(--world-green); transform: scale(1.05); }
+#marketing-site .growing-navigation > span:not(.growing-count) { width: 18px; height: 1px; background: rgba(255,255,255,.28); }
+#marketing-site .growing-count { margin-left: 8px; color: rgba(255,253,246,.54); font-size: 8px; letter-spacing: .13em; }
+#marketing-site .growing-count b { color: var(--world-gold); font-size: 14px; }
+#marketing-site .growing-link,
+#marketing-site .place-action,
+#marketing-site .ritual-link { display: inline-flex; align-items: center; gap: 16px; margin-top: 24px; color: var(--world-gold); font-size: 10px; font-weight: 700; }
+#marketing-site .growing-link span,
+#marketing-site .place-action span,
+#marketing-site .ritual-link span { transition: transform .22s ease; }
+#marketing-site .growing-link:hover span,
+#marketing-site .place-action:hover span,
+#marketing-site .ritual-link:hover span { transform: translate(3px,-3px); }
+#marketing-site .growing-art { position: relative; z-index: 2; display: grid; width: min(62vw,900px); min-height: min(78svh,730px); place-items: center; justify-self: end; }
+#marketing-site .growing-plant { position: relative; z-index: 2; display: block; width: min(100%,850px); height: auto; overflow: visible; filter: drop-shadow(0 24px 25px rgba(0,0,0,.13)); transform: translate3d(var(--growing-plant-x,0px),var(--growing-plant-y,0px),0) scale(var(--growing-plant-scale,1)); transform-origin: 51% 72%; will-change: transform; }
+#marketing-site .growing-roots { stroke-dasharray: 1; stroke-dashoffset: var(--roots-offset,1); opacity: var(--roots-opacity,.2); }
+#marketing-site .growing-stem { stroke-dasharray: 1; stroke-dashoffset: var(--stem-offset,1); }
+#marketing-site .growing-bloom-stem { opacity: var(--bloom-stem-opacity,0); }
+#marketing-site .growing-leaves { opacity: var(--leaves-opacity,0); transform: scale(var(--leaves-scale,.75)); transform-origin: 500px 565px; }
+#marketing-site .growing-flower { opacity: var(--flower-opacity,0); transform: scale(var(--flower-scale,.18)); transform-origin: 500px 204px; }
+#marketing-site .growing-bee { opacity: var(--bee-opacity,0); transform: translate3d(var(--bee-x,0px),var(--bee-y,0px),0); }
+#marketing-site .growing-sun-disc { opacity: var(--sun-opacity,.28); transform: scale(var(--sun-scale,.85)); transform-origin: 764px 196px; }
+#marketing-site .growing-seed { opacity: var(--seed-opacity,1); }
+#marketing-site .growing-pollen { position: absolute; inset: 0; width: 100%; height: 100%; opacity: var(--pollen-opacity,.2); pointer-events: none; }
+#marketing-site .growing-art-label { position: absolute; z-index: 4; right: 5%; bottom: 8%; color: rgba(255,253,246,.53); font-size: 7px; font-weight: 700; letter-spacing: .2em; }
+#marketing-site .growing-word { position: absolute; z-index: 1; right: -1vw; bottom: 25px; color: transparent; font-size: clamp(150px,23vw,340px); font-weight: 700; letter-spacing: -.14em; line-height: .72; -webkit-text-stroke: 1px rgba(255,253,246,.11); transform: translate3d(var(--growing-word-x,0px),0,0); pointer-events: none; }
+#marketing-site .growing-progress,
+#marketing-site .ritual-progress { position: absolute; z-index: 8; right: 0; bottom: 0; left: 0; height: 2px; background: rgba(255,255,255,.2); }
+#marketing-site .growing-progress span,
+#marketing-site .ritual-progress span { display: block; width: 100%; height: 100%; background: var(--world-gold); transform: scaleX(var(--scene-progress,0)); transform-origin: left; }
+#marketing-site .growing-world.is-enhanced .growing-track { height: 300svh; }
+#marketing-site .growing-world.is-enhanced .growing-stage { position: sticky; top: var(--world-header); height: calc(100svh - var(--world-header)); min-height: 620px; padding-block: 70px; }
+#marketing-site .growing-world:not(.is-enhanced) .growing-roots { stroke-dashoffset: 0; opacity: .8; }
+#marketing-site .growing-world:not(.is-enhanced) .growing-stem { stroke-dashoffset: 0; }
+#marketing-site .growing-world:not(.is-enhanced) .growing-bloom-stem,
+#marketing-site .growing-world:not(.is-enhanced) .growing-leaves,
+#marketing-site .growing-world:not(.is-enhanced) .growing-flower,
+#marketing-site .growing-world:not(.is-enhanced) .growing-bee { opacity: 1; }
+#marketing-site .growing-world:not(.is-enhanced) .growing-leaves,
+#marketing-site .growing-world:not(.is-enhanced) .growing-flower { transform: none; }
+#marketing-site .growing-world:not(.is-enhanced) .growing-pollen { display: none; }
+
+/* One unbroken panorama: the window, balcony, and shared patch are places in one landscape. */
+#marketing-site .place-world { z-index: 3; background: #f5f0e4; color: var(--world-ink); }
+#marketing-site .place-track { position: relative; }
+#marketing-site .place-stage { position: relative; min-height: 820px; overflow: hidden; background: linear-gradient(145deg,#f4f0e4,#e5e9d9 53%,#d5e1d0); isolation: isolate; }
+#marketing-site .place-sky { position: absolute; z-index: -1; inset: 0; opacity: var(--place-atmosphere,.45); pointer-events: none; }
+#marketing-site .place-sky-one { background: radial-gradient(ellipse at 76% 18%,rgba(242,212,137,.38),transparent 21%),linear-gradient(180deg,rgba(251,249,239,.9),rgba(220,231,212,.36) 70%,rgba(176,199,160,.22)); }
+#marketing-site .place-sky-two { background: radial-gradient(ellipse at 75% 23%,rgba(190,217,225,.38),transparent 35%),linear-gradient(180deg,rgba(208,223,221,.28),transparent 62%,rgba(125,166,117,.13)); }
+#marketing-site .place-copy { position: absolute; z-index: 5; top: 50%; left: max(7vw,calc((100vw - 1370px)/2)); width: min(490px,35vw); transform: translate3d(0,calc(-50% + var(--place-copy-y,0px)),0); }
+#marketing-site .place-eyebrow { margin-bottom: 23px; color: #6d806e; }
+#marketing-site .place-eyebrow > span { background: var(--world-clay); }
+#marketing-site .place-copy > h2 { margin: 0; color: var(--world-ink); font-size: clamp(46px,5.9vw,84px); font-weight: 500; letter-spacing: -.09em; line-height: .87; }
+#marketing-site .place-copy > h2 em { color: #68815f; font-family: var(--exp-serif); font-weight: 600; }
+#marketing-site .place-intro { max-width: 410px; margin: 20px 0 0; color: #617461; font-size: 13px; line-height: 1.82; }
+#marketing-site .place-caption-set { display: grid; min-height: 130px; margin-top: 23px; }
+#marketing-site .place-caption { grid-area: 1/1; align-self: start; opacity: 0; visibility: hidden; transform: translate3d(0,15px,0); transition: opacity .38s ease,transform .5s cubic-bezier(.2,.7,.2,1); }
+#marketing-site .place-caption[aria-hidden="false"] { opacity: 1; visibility: visible; transform: translate3d(0,0,0); }
+#marketing-site .place-caption > span { color: var(--world-clay); font-size: 7px; font-weight: 700; letter-spacing: .15em; }
+#marketing-site .place-caption h3 { margin: 7px 0 5px; color: var(--world-ink); font-family: var(--exp-serif); font-size: 24px; font-weight: 600; letter-spacing: -.04em; }
+#marketing-site .place-caption p { max-width: 345px; margin: 0; color: #627463; font-size: 11px; line-height: 1.72; }
+#marketing-site .place-navigation { display: flex; align-items: center; gap: 8px; margin-top: 11px; }
+#marketing-site .place-navigation button { width: 31px; height: 31px; border-color: rgba(31,56,43,.35); color: #536a58; font-size: 8px; }
+#marketing-site .place-navigation button:hover,
+#marketing-site .place-navigation button[aria-current="step"] { border-color: var(--world-clay); background: var(--world-clay); color: #fffdf6; }
+#marketing-site .place-navigation > span { width: 12px; height: 1px; background: rgba(31,56,43,.24); }
+#marketing-site .place-navigation b { margin-left: 8px; color: #708270; font-size: 7px; letter-spacing: .12em; }
+#marketing-site .place-action { margin-top: 17px; color: var(--world-ink); }
+#marketing-site .place-action span { color: var(--world-clay); }
+#marketing-site .place-world-window { position: absolute; z-index: 2; top: 0; right: 0; bottom: 0; left: 42%; overflow: hidden; mask-image: linear-gradient(90deg,transparent 0%,#000 10%,#000 100%); -webkit-mask-image: linear-gradient(90deg,transparent 0%,#000 10%,#000 100%); }
+#marketing-site .place-panorama { display: block; width: 300%; max-width: none; height: 100%; transform: translate3d(var(--place-shift,0px),var(--place-art-y,0px),0) scale(var(--place-art-scale,1)); transform-origin: left center; transition: none; will-change: transform; }
+#marketing-site .place-environment { opacity: var(--place-env-opacity,1); transform: translate3d(var(--place-env-x,0px),0,0) scale(var(--place-env-scale,1)); transform-origin: 50% 70%; transition: opacity .1s linear; }
+#marketing-site .place-petal { transform-box: fill-box; transform-origin: center; animation: place-sway 5.5s ease-in-out infinite alternate; }
+#marketing-site .place-environment-balcony .place-petal { animation-delay: -.9s; }
+#marketing-site .place-environment-community .place-petal { animation-delay: -1.7s; }
+@keyframes place-sway { from { transform: rotate(-2deg); } to { transform: rotate(2.5deg); } }
+#marketing-site .place-bees { opacity: var(--place-bee-opacity,.5); }
+#marketing-site .place-scroll-index { position: absolute; z-index: 4; right: max(6vw,calc((100vw - 1370px)/2)); bottom: 28px; left: max(6vw,calc((100vw - 1370px)/2)); display: flex; justify-content: space-between; color: #788879; font-size: 7px; font-weight: 700; letter-spacing: .14em; }
+#marketing-site .place-scroll-index b { color: var(--world-clay); }
+#marketing-site .place-progress { position: absolute; z-index: 7; right: 0; bottom: 0; left: 0; height: 2px; background: rgba(31,56,43,.14); }
+#marketing-site .place-progress span { display: block; width: 100%; height: 100%; background: var(--world-clay); transform: scaleX(var(--place-progress,0)); transform-origin: left; }
+#marketing-site .place-world.is-enhanced .place-track { height: 290svh; }
+#marketing-site .place-world.is-enhanced .place-stage { position: sticky; top: var(--world-header); height: calc(100svh - var(--world-header)); min-height: 620px; }
+
+/* The shared act is a single visual sentence; its verb changes as the bloom leaves home. */
+#marketing-site .ritual-world { z-index: 4; background: #c98161; color: #fffdf6; }
+#marketing-site .ritual-track { position: relative; }
+#marketing-site .ritual-stage { position: relative; display: grid; min-height: 760px; grid-template-columns: minmax(420px,.95fr) minmax(0,1.05fr); align-items: center; gap: 2vw; overflow: hidden; padding: 64px max(7vw,calc((100vw - 1370px)/2)); background: linear-gradient(122deg,#b66e55 0%,#cb8869 45%,#a66d59 100%); isolation: isolate; }
+#marketing-site .ritual-atmosphere { position: absolute; z-index: -2; inset: 0; opacity: var(--ritual-atmosphere-one,.94); background: radial-gradient(ellipse at 72% 44%,rgba(246,220,154,.43),transparent 31%),linear-gradient(125deg,#c98161,#bf795e 55%,#845f4f); transition: opacity .1s linear; }
+#marketing-site .ritual-atmosphere-two { z-index: -1; opacity: var(--ritual-atmosphere-two,0); background: radial-gradient(ellipse at 71% 45%,rgba(238,204,112,.22),transparent 35%),linear-gradient(120deg,#315e46,#1b4935 55%,#122c21); }
+#marketing-site .ritual-topline { position: absolute; z-index: 6; top: 23px; right: max(6vw,calc((100vw - 1370px)/2)); left: max(6vw,calc((100vw - 1370px)/2)); display: flex; justify-content: space-between; color: rgba(255,253,246,.72); font-size: 7px; font-weight: 700; letter-spacing: .16em; }
+#marketing-site .ritual-copy { position: relative; z-index: 4; width: 100%; max-width: 620px; }
+#marketing-site .ritual-eyebrow { color: rgba(255,253,246,.75); }
+#marketing-site .ritual-copy > h2 { margin: 0; color: #fffdf6; font-size: clamp(46px,5.1vw,74px); font-weight: 500; letter-spacing: -.09em; line-height: .87; }
+#marketing-site .ritual-copy > h2 em { color: #f1d282; font-family: var(--exp-serif); font-weight: 600; }
+#marketing-site .ritual-intro { max-width: 400px; margin: 18px 0 0; color: rgba(255,253,246,.77); font-size: 12px; line-height: 1.78; }
+#marketing-site .ritual-chapters { display: grid; min-height: 118px; margin-top: 20px; }
+#marketing-site .ritual-chapter { grid-area: 1/1; align-self: start; max-width: 415px; opacity: 0; visibility: hidden; transform: translate3d(0,17px,0); transition: opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1); }
+#marketing-site .ritual-chapter[aria-hidden="false"] { opacity: 1; visibility: visible; transform: translate3d(0,0,0); }
+#marketing-site .ritual-chapter > span { color: rgba(255,253,246,.63); font-size: 7px; font-weight: 700; letter-spacing: .16em; }
+#marketing-site .ritual-chapter h3 { margin: 8px 0 5px; color: #fffdf6; font-family: var(--exp-serif); font-size: 22px; font-weight: 600; letter-spacing: -.04em; }
+#marketing-site .ritual-chapter h3 em { color: #f1d282; }
+#marketing-site .ritual-chapter p { max-width: 375px; margin: 0; color: rgba(255,253,246,.77); font-size: 11px; line-height: 1.7; }
+#marketing-site .ritual-navigation { display: flex; align-items: center; gap: 9px; }
+#marketing-site .ritual-navigation button { width: 32px; height: 32px; border-color: rgba(255,253,246,.48); }
+#marketing-site .ritual-navigation > span { width: 13px; height: 1px; background: rgba(255,253,246,.43); }
+#marketing-site .ritual-navigation > b { margin-left: 8px; color: rgba(255,253,246,.65); font-size: 8px; letter-spacing: .13em; }
+#marketing-site .ritual-navigation > b span { color: #f1d282; }
+#marketing-site .ritual-link { margin-top: 16px; color: #fff2c6; }
+#marketing-site .ritual-art { position: relative; z-index: 2; display: grid; width: min(40vw,610px); aspect-ratio: 1; place-items: center; justify-self: end; }
+#marketing-site .ritual-big-word { position: absolute; z-index: -1; color: transparent; font-size: clamp(76px,12vw,174px); font-weight: 700; letter-spacing: -.12em; line-height: .8; opacity: var(--ritual-word-opacity,.16); -webkit-text-stroke: 1px rgba(255,253,246,.68); transform: translate3d(var(--ritual-word-x,0px),var(--ritual-word-y,0px),0) scale(var(--ritual-word-scale,.94)) rotate(var(--ritual-word-rotate,-8deg)); transform-origin: center; white-space: nowrap; transition: opacity .25s ease; }
+#marketing-site .ritual-orbit { position: relative; z-index: 2; width: 100%; height: 100%; overflow: visible; transform: rotate(var(--ritual-orbit-rotate,0deg)) scale(var(--ritual-art-scale,.91)); transform-origin: center; filter: drop-shadow(0 24px 35px rgba(65,42,30,.18)); }
+#marketing-site .ritual-path { stroke-dasharray: 1; stroke-dashoffset: var(--ritual-path-offset,1); }
+#marketing-site .ritual-flower { transform-box: fill-box; transform-origin: center; transform: scale(var(--ritual-flower-scale,.84)) rotate(var(--ritual-flower-rotate,0deg)); }
+#marketing-site .ritual-orbit-bee { transform: translate3d(var(--ritual-bee-x,0px),var(--ritual-bee-y,0px),0); }
+#marketing-site .ritual-world.is-enhanced .ritual-track { height: 275svh; }
+#marketing-site .ritual-world.is-enhanced .ritual-stage { position: sticky; top: var(--world-header); height: calc(100svh - var(--world-header)); min-height: 620px; }
+#marketing-site .opening-world:not(.is-enhanced) .opening-afterthought { opacity: 1; transform: none; }
+#marketing-site .opening-world:not(.is-enhanced) .opening-progress span { transform: scaleX(1); }
+#marketing-site .ritual-world:not(.is-enhanced) .ritual-path { stroke-dashoffset: 0; }
+
+/* The last pollen trail dissolves into the paper footer. */
+#marketing-site .share-section { position: relative; min-height: 100svh; overflow: hidden; background: linear-gradient(180deg,#173c2a 0%,#24533a 74%,#dfe8d9 100%); color: #fffdf6; }
+#marketing-site .share-section::before { border-color: rgba(255,255,255,.17); background: radial-gradient(circle,rgba(245,225,163,.12),transparent 68%); }
+#marketing-site .share-section::after { position: absolute; z-index: 1; right: 0; bottom: 0; left: 0; height: 19%; background: linear-gradient(180deg,transparent,rgba(223,232,217,.94)); content: ""; pointer-events: none; }
+#marketing-site .share-pollen-field { z-index: 0; opacity: .74; }
+#marketing-site .share-copy { width: min(100%,950px); }
+#marketing-site .share-copy h2 { max-width: 1050px; font-size: clamp(66px,9.5vw,140px); }
+#marketing-site .share-date-card { top: auto; right: clamp(40px,8vw,116px); bottom: clamp(96px,16vh,150px); }
+#marketing-site .closing-bottomline { z-index: 3; border-top-color: rgba(255,255,255,.28); }
+#marketing-site .site-footer { margin-top: -1px; border-radius: 0; background: #dfe8d9; }
+#marketing-site .site-footer::before { position: absolute; top: 0; right: 0; left: 0; height: 1px; background: rgba(31,56,43,.12); content: ""; }
+
+/* Static fallback: no pinned height, hidden content, or motion-dependent meaning. */
+#marketing-site .growing-world:not(.is-enhanced) .growing-chapter,
+#marketing-site .place-world:not(.is-enhanced) .place-caption,
+#marketing-site .ritual-world:not(.is-enhanced) .ritual-chapter { grid-area: auto; opacity: 1; visibility: visible; transform: none; }
+@media (min-width: 761px) {
+  #marketing-site .growing-world:not(.is-enhanced) .growing-chapters,
+  #marketing-site .place-world:not(.is-enhanced) .place-caption-set,
+  #marketing-site .ritual-world:not(.is-enhanced) .ritual-chapters { display: flex; min-height: 0; flex-direction: column; gap: 22px; }
+  #marketing-site .growing-world:not(.is-enhanced) .growing-chapter,
+  #marketing-site .place-world:not(.is-enhanced) .place-caption,
+  #marketing-site .ritual-world:not(.is-enhanced) .ritual-chapter { flex: 0 0 auto; }
+}
+@media (min-width: 901px) and (min-height: 701px) {
+  #marketing-site .growing-world:not(.is-enhanced) .growing-stage,
+  #marketing-site .place-world:not(.is-enhanced) .place-stage,
+  #marketing-site .ritual-world:not(.is-enhanced) .ritual-stage { min-height: 100svh; }
+}
+@media (max-width: 1100px) and (min-width: 761px) {
+  #marketing-site .opening-stage { padding-inline: 5vw; }
+  #marketing-site .opening-copy { width: min(650px,64vw); }
+  #marketing-site .opening-date { right: 7vw; }
+  #marketing-site .opening-caption { right: 4vw; }
+  #marketing-site .growing-stage { grid-template-columns: minmax(320px,.9fr) minmax(0,1.1fr); padding-inline: 5vw; }
+  #marketing-site .growing-art { width: min(60vw,700px); }
+  #marketing-site .place-copy { left: 5vw; width: 37vw; }
+  #marketing-site .place-world-window { left: 42%; }
+  #marketing-site .ritual-stage { grid-template-columns: minmax(330px,.92fr) minmax(0,1.08fr); padding-inline: 5vw; }
+  #marketing-site .ritual-art { width: 46vw; }
+}
+@media (max-width: 760px) {
+  #marketing-site .opening-track,
+  #marketing-site .growing-world.is-enhanced .growing-track,
+  #marketing-site .place-world.is-enhanced .place-track,
+  #marketing-site .ritual-world.is-enhanced .ritual-track { height: auto !important; }
+  #marketing-site .opening-stage,
+  #marketing-site .opening-world.is-enhanced .opening-stage,
+  #marketing-site .growing-stage,
+  #marketing-site .growing-world.is-enhanced .growing-stage,
+  #marketing-site .place-stage,
+  #marketing-site .place-world.is-enhanced .place-stage,
+  #marketing-site .ritual-stage,
+  #marketing-site .ritual-world.is-enhanced .ritual-stage { position: relative !important; top: auto !important; display: flex; height: auto !important; min-height: 0; flex-direction: column; align-items: stretch; gap: 0; overflow: hidden; padding: 105px 23px 78px; }
+  #marketing-site .opening-stage { min-height: 780px; justify-content: flex-start; padding: 118px 21px 222px; }
+  #marketing-site .opening-topline { top: 17px; right: 20px; left: 20px; font-size: 6px; letter-spacing: .12em; }
+  #marketing-site .opening-coordinate { display: none; }
+  #marketing-site .opening-image-layer img { object-position: 60% center; transform: translate3d(var(--opening-photo-x,0px),var(--opening-photo-y,0px),0) scale(var(--opening-photo-scale,1.1)); }
+  #marketing-site .opening-shade { background: linear-gradient(90deg,rgba(9,21,14,.75),rgba(9,21,14,.24)),linear-gradient(0deg,rgba(8,22,14,.92),transparent 67%); }
+  #marketing-site .opening-copy { width: 100%; max-width: 560px; transform: translate3d(var(--opening-copy-x,0px),var(--opening-copy-y,0px),0); opacity: var(--opening-copy-opacity,1); }
+  #marketing-site .opening-eyebrow { margin-bottom: 21px; font-size: 7px; }
+  #marketing-site .opening-copy h1 { font-size: clamp(67px,16vw,96px); }
+  #marketing-site .opening-description { max-width: 430px; margin-top: 22px; font-size: 13px; }
+  #marketing-site .opening-actions { align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 21px; }
+  #marketing-site .opening-actions .button { min-height: 46px; }
+  #marketing-site .opening-afterthought { display: none; }
+  #marketing-site .opening-date { top: auto; right: 24px; bottom: 230px; width: 88px; height: 112px; gap: 5px; transform: rotate(4deg); }
+  #marketing-site .opening-date strong { font-size: 21px; }
+  #marketing-site .opening-date > span,
+  #marketing-site .opening-date > small { font-size: 5px; }
+  #marketing-site .opening-caption { right: 14px; bottom: 158px; left: 14px; min-width: 0; padding: 10px 12px; font-size: 8px; }
+  #marketing-site .opening-facts { min-height: 128px; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 18px 17px 17px; }
+  #marketing-site .opening-facts-intro { grid-column: 1/-1; font-size: 13px; }
+  #marketing-site .opening-fact { gap: 7px; align-items: flex-start; font-size: 8px; }
+  #marketing-site .opening-fact > b { font-size: 18px; }
+  #marketing-site .opening-fact small { font-size: 6px; }
+  #marketing-site .opening-word { right: -8vw; bottom: 127px; font-size: 48vw; }
+  #marketing-site .opening-progress { position: absolute; }
+
+  #marketing-site .growing-stage { min-height: 0; padding: 100px 22px 64px; background: radial-gradient(ellipse at 52% 75%,#284b36 0%,#193929 37%,#10271d 78%); }
+  #marketing-site .growing-photo { opacity: .16; }
+  #marketing-site .growing-topline { top: 19px; right: 20px; left: 20px; font-size: 6px; letter-spacing: .12em; }
+  #marketing-site .growing-topline span:last-child { display: none; }
+  #marketing-site .growing-copy { order: 0; max-width: 520px; }
+  #marketing-site .growing-eyebrow { font-size: 7px; }
+  #marketing-site .growing-chapters { display: grid; min-height: 0; gap: 22px; }
+  #marketing-site .growing-chapter { grid-area: auto; padding-bottom: 4px; opacity: 1 !important; visibility: visible !important; transform: none !important; }
+  #marketing-site .growing-chapter h2 { font-size: clamp(46px,12vw,66px); }
+  #marketing-site .growing-chapter p { margin-top: 14px; font-size: 12px; }
+  #marketing-site .growing-navigation { display: none; }
+  #marketing-site .growing-link { margin-top: 18px; }
+  #marketing-site .growing-art { order: 1; width: 100%; min-height: 0; height: 380px; margin-top: 20px; }
+  #marketing-site .growing-plant { width: 120%; max-width: none; margin-left: -10%; transform: translate3d(var(--growing-plant-x,0px),var(--growing-plant-y,0px),0) scale(var(--growing-plant-scale,1)); }
+  #marketing-site .growing-pollen { opacity: .3; }
+  #marketing-site .growing-word { right: -8vw; bottom: 18px; font-size: 42vw; }
+  #marketing-site .growing-progress { display: none; }
+
+  #marketing-site .place-stage,
+  #marketing-site .place-world.is-enhanced .place-stage { min-height: 0; padding: 90px 22px 58px; background: linear-gradient(155deg,#f6f1e5,#e1eadb); }
+  #marketing-site .place-copy { position: relative; top: auto; left: auto; width: 100%; max-width: 520px; transform: none; }
+  #marketing-site .place-copy > h2 { font-size: clamp(43px,11vw,64px); }
+  #marketing-site .place-intro { margin-top: 15px; font-size: 12px; }
+  #marketing-site .place-caption-set { display: grid; min-height: 0; gap: 19px; margin-top: 21px; }
+  #marketing-site .place-caption { grid-area: auto; padding-left: 13px; border-left: 1px solid rgba(31,56,43,.2); opacity: 1 !important; visibility: visible !important; transform: none !important; }
+  #marketing-site .place-caption h3 { font-size: 20px; }
+  #marketing-site .place-caption p { font-size: 10px; }
+  #marketing-site .place-navigation { display: flex; flex-wrap: wrap; }
+  #marketing-site .place-action { margin-top: 20px; }
+  #marketing-site .place-world-window { position: relative; top: auto; right: auto; bottom: auto; left: auto; width: calc(100vw - 22px); height: 300px; margin: 28px -22px 0 0; mask-image: linear-gradient(90deg,#000, #000); -webkit-mask-image: linear-gradient(90deg,#000,#000); }
+  #marketing-site .place-panorama { width: 300%; transform: translate3d(var(--place-shift,0px),var(--place-art-y,0px),0) scale(var(--place-art-scale,1)); }
+  #marketing-site .place-scroll-index { right: 22px; bottom: 17px; left: 22px; font-size: 6px; }
+  #marketing-site .place-progress { display: none; }
+
+  #marketing-site .ritual-stage,
+  #marketing-site .ritual-world.is-enhanced .ritual-stage { min-height: 0; padding: 93px 22px 76px; background: linear-gradient(142deg,#c98161,#ad7158 53%,#31533b); }
+  #marketing-site .ritual-topline { top: 18px; right: 20px; left: 20px; font-size: 6px; letter-spacing: .11em; }
+  #marketing-site .ritual-copy { max-width: 520px; }
+  #marketing-site .ritual-copy > h2 { font-size: clamp(48px,12vw,70px); }
+  #marketing-site .ritual-intro { font-size: 11px; }
+  #marketing-site .ritual-chapters { min-height: 0; gap: 17px; margin-top: 20px; }
+  #marketing-site .ritual-chapter { grid-area: auto; padding: 14px 0 0; border-top: 1px solid rgba(255,253,246,.25); opacity: 1 !important; visibility: visible !important; transform: none !important; }
+  #marketing-site .ritual-navigation { display: none; }
+  #marketing-site .ritual-art { order: -1; width: min(78vw,330px); aspect-ratio: 1; align-self: center; margin: 16px auto 28px; }
+  #marketing-site .ritual-big-word { font-size: 19vw; }
+  #marketing-site .ritual-orbit { transform: rotate(var(--ritual-orbit-rotate,0deg)) scale(var(--ritual-art-scale,.98)); }
+  #marketing-site .ritual-progress { display: none; }
+
+  #marketing-site .share-section { min-height: 700px; background: linear-gradient(180deg,#173c2a,#24533a 75%,#dfe8d9); }
+  #marketing-site .share-section::after { height: 14%; }
+  #marketing-site .share-inner { min-height: 700px; padding: 90px 22px 140px; }
+  #marketing-site .share-copy { width: 100%; }
+  #marketing-site .share-copy h2 { font-size: clamp(53px,13vw,75px); }
+  #marketing-site .share-date-card { right: 8%; bottom: 74px; width: 84px; height: 110px; }
+  #marketing-site .share-date-card > strong { font-size: 21px; }
+  #marketing-site .closing-bottomline { width: calc(100% - 44px); }
+  #marketing-site .site-footer { margin-top: -1px; }
+}
+
+/* ----------------------------------------------------------------------
+   Real-time bee world
+   One persistent WebGL canvas carries every chapter. The legacy image
+   chapters stay in the source for backwards compatibility with the app
+   shell, but never participate in the public marketing experience.
+   ---------------------------------------------------------------------- */
+#marketing-site .legacy-world { display: none !important; }
+#marketing-site .bee-journey {
+  position: relative;
+  z-index: 3;
+  overflow: clip;
+  isolation: isolate;
+  color: #fff9e8;
+  background: #060907;
+}
+#marketing-site .bee-journey-track {
+  position: relative;
+  height: 820svh;
+  min-height: 5600px;
+}
+#marketing-site .bee-journey-stage {
+  position: sticky;
+  top: var(--world-header);
+  display: block;
+  height: calc(100svh - var(--world-header));
+  min-height: 650px;
+  overflow: hidden;
+  background: #07100b;
+  isolation: isolate;
+}
+#marketing-site .bee-render-shell,
+#marketing-site .bee-world-canvas,
+#marketing-site .bee-render-glow,
+#marketing-site .bee-render-vignette {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+#marketing-site .bee-render-shell {
+  z-index: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at 72% 43%, #233b26 0%, #0c1c12 39%, #060907 78%);
+}
+#marketing-site .bee-world-canvas {
+  display: block;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity .9s ease;
+  outline: none;
+}
+#marketing-site .bee-journey.is-ready .bee-world-canvas { opacity: 1; }
+#marketing-site .bee-render-glow {
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 75% 35%, rgba(240, 195, 79, .16), transparent 24%),
+    radial-gradient(circle at 40% 88%, rgba(50, 112, 62, .18), transparent 38%);
+  mix-blend-mode: screen;
+}
+#marketing-site .bee-render-vignette {
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4, 8, 5, .94) 0%, rgba(4, 8, 5, .73) 28%, rgba(4, 8, 5, .14) 64%, rgba(4, 8, 5, .12) 100%),
+    linear-gradient(180deg, rgba(4, 7, 4, .46), transparent 22%, transparent 72%, rgba(4, 7, 4, .72));
+}
+#marketing-site .bee-journey-topline {
+  position: absolute;
+  z-index: 8;
+  top: clamp(18px, 3vw, 36px);
+  right: max(5vw, calc((100vw - 1420px) / 2));
+  left: max(5vw, calc((100vw - 1420px) / 2));
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  color: rgba(255, 249, 232, .58);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+#marketing-site .bee-journey-copy {
+  position: relative;
+  z-index: 7;
+  display: flex;
+  width: min(560px, 43vw);
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: max(5vw, calc((100vw - 1420px) / 2));
+  padding: 11vh 0 8vh;
+  pointer-events: none;
+}
+#marketing-site .bee-journey-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 27px;
+  color: rgba(255, 249, 232, .74);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+#marketing-site .bee-journey-eyebrow > span {
+  width: 42px;
+  height: 1px;
+  background: #f4c542;
+}
+#marketing-site .bee-chapters {
+  position: relative;
+  min-height: clamp(390px, 38vh, 540px);
+}
+#marketing-site .bee-chapter {
+  position: absolute;
+  inset: 0;
+  max-width: 560px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 28px, 0) scale(.985);
+  transition: opacity .6s cubic-bezier(.2, .7, .2, 1), transform .72s cubic-bezier(.2, .7, .2, 1), visibility 0s linear .6s;
+}
+#marketing-site .bee-chapter.is-active,
+#marketing-site .bee-chapter[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition-delay: 0s;
+}
+#marketing-site .bee-kicker {
+  display: block;
+  margin-bottom: 18px;
+  color: #f4c542;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .17em;
+  line-height: 1.4;
+}
+#marketing-site .bee-kicker i {
+  color: rgba(255, 249, 232, .53);
+  font-style: normal;
+}
+#marketing-site .bee-chapter h2 {
+  max-width: 560px;
+  margin: 0;
+  color: #fff9e8;
+  font-size: clamp(53px, 6.35vw, 96px);
+  font-weight: 500;
+  letter-spacing: -.083em;
+  line-height: .89;
+  text-wrap: balance;
+}
+#marketing-site .bee-chapter h2 em {
+  color: #f4c542;
+  font-family: var(--exp-serif);
+  font-weight: 600;
+  letter-spacing: -.08em;
+}
+#marketing-site .bee-chapter p {
+  max-width: 395px;
+  margin: 25px 0 0;
+  color: rgba(255, 249, 232, .73);
+  font-size: 14px;
+  line-height: 1.78;
+}
+#marketing-site .bee-journey-navigation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 25px;
+  pointer-events: auto;
+}
+#marketing-site .bee-journey-navigation button {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid rgba(255, 249, 232, .35);
+  border-radius: 50%;
+  color: rgba(255, 249, 232, .72);
+  background: transparent;
+  font: 700 8px var(--exp-sans);
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: color .25s ease, background-color .25s ease, border-color .25s ease, transform .25s ease;
+}
+#marketing-site .bee-journey-navigation button:hover,
+#marketing-site .bee-journey-navigation button[aria-current="step"] {
+  border-color: #f4c542;
+  color: #0a100b;
+  background: #f4c542;
+  transform: translateY(-2px);
+}
+#marketing-site .bee-journey-navigation > span {
+  width: 14px;
+  height: 1px;
+  background: rgba(255, 249, 232, .24);
+}
+#marketing-site .bee-journey-navigation b {
+  margin-left: 7px;
+  color: rgba(255, 249, 232, .52);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+#marketing-site .bee-journey-navigation b strong { color: #f4c542; }
+#marketing-site .bee-journey-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  margin-top: 27px;
+  color: #fff9e8;
+  font-size: 11px;
+  font-weight: 700;
+  pointer-events: auto;
+  text-decoration: none;
+}
+#marketing-site .bee-journey-link span { color: #f4c542; font-size: 17px; transition: transform .24s ease; }
+#marketing-site .bee-journey-link:hover { color: #f4c542; }
+#marketing-site .bee-journey-link:hover span { transform: translate(3px, -3px); }
+#marketing-site .bee-journey-side-label {
+  position: absolute;
+  z-index: 8;
+  right: max(20px, 2.8vw);
+  bottom: 124px;
+  color: rgba(255, 249, 232, .58);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  pointer-events: none;
+}
+#marketing-site .bee-journey-progress {
+  position: absolute;
+  z-index: 9;
+  right: max(5vw, calc((100vw - 1420px) / 2));
+  bottom: 37px;
+  left: max(5vw, calc((100vw - 1420px) / 2));
+  height: 1px;
+  background: rgba(255, 249, 232, .2);
+  pointer-events: none;
+}
+#marketing-site .bee-journey-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f4c542;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+#marketing-site .bee-journey-index {
+  position: absolute;
+  z-index: 8;
+  right: max(5vw, calc((100vw - 1420px) / 2));
+  bottom: 51px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: rgba(255, 249, 232, .44);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+#marketing-site .bee-journey-index b { color: #f4c542; font-size: 13px; }
+#marketing-site .bee-journey-scroll-note {
+  position: absolute;
+  z-index: 8;
+  right: max(5vw, calc((100vw - 1420px) / 2));
+  bottom: 80px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 249, 232, .46);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+#marketing-site .bee-scroll-wheel {
+  display: inline-block;
+  width: 13px;
+  height: 20px;
+  border: 1px solid rgba(255, 249, 232, .6);
+  border-radius: 10px;
+}
+#marketing-site .bee-scroll-wheel::after {
+  display: block;
+  width: 2px;
+  height: 5px;
+  margin: 4px auto 0;
+  border-radius: 2px;
+  background: #f4c542;
+  content: "";
+  animation: bee-scroll-tick 1.8s ease-in-out infinite;
+}
+@keyframes bee-scroll-tick { 0%, 100% { opacity: .3; transform: translateY(0); } 45% { opacity: 1; transform: translateY(5px); } }
+
+@media (max-width: 900px) {
+  #marketing-site .bee-journey-copy { width: min(560px, 51vw); }
+  #marketing-site .bee-chapter h2 { font-size: clamp(48px, 7.3vw, 74px); }
+  #marketing-site .bee-journey-navigation > span { width: 8px; }
+  #marketing-site .bee-journey-side-label { display: none; }
+}
+
+@media (max-width: 760px) {
+  #marketing-site .bee-journey-track { height: 760svh; min-height: 0; }
+  #marketing-site .bee-journey-stage { top: var(--world-header); height: calc(100svh - var(--world-header)); min-height: 590px; }
+  #marketing-site .bee-render-vignette {
+    background: linear-gradient(180deg, rgba(4, 8, 5, .18) 4%, rgba(4, 8, 5, .14) 35%, rgba(4, 8, 5, .93) 81%), linear-gradient(90deg, rgba(4, 8, 5, .22), transparent 70%);
+  }
+  #marketing-site .bee-journey-topline { top: 17px; right: 21px; left: 21px; font-size: 6px; }
+  #marketing-site .bee-journey-topline span:last-child { display: none; }
+  #marketing-site .bee-journey-copy { width: auto; min-height: 0; margin: 0; padding: 42vh 21px 78px; }
+  #marketing-site .bee-journey-eyebrow { margin-bottom: 19px; font-size: 8px; }
+  #marketing-site .bee-chapters { min-height: 275px; }
+  #marketing-site .bee-chapter h2 { font-size: clamp(47px, 13vw, 74px); line-height: .9; }
+  #marketing-site .bee-chapter p { max-width: 330px; margin-top: 16px; font-size: 12px; line-height: 1.62; }
+  #marketing-site .bee-journey-navigation { display: none; }
+  #marketing-site .bee-journey-link { margin-top: 5px; }
+  #marketing-site .bee-journey-index { right: 21px; bottom: 51px; }
+  #marketing-site .bee-journey-scroll-note { right: auto; bottom: 50px; left: 21px; font-size: 7px; }
+  #marketing-site .bee-journey-progress { right: 21px; bottom: 29px; left: 21px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #marketing-site .bee-scroll-wheel::after { animation: none; }
+  #marketing-site .bee-journey-track { height: auto; min-height: 0; }
+  #marketing-site .bee-journey-stage { position: relative; top: auto; height: auto; min-height: 0; padding-bottom: 70px; }
+  #marketing-site .bee-render-shell { position: relative; height: min(62svh, 540px); min-height: 360px; }
+  #marketing-site .bee-journey-copy { width: min(660px, 88vw); min-height: 0; margin: 0 auto; padding: 62px 0 0; pointer-events: auto; }
+  #marketing-site .bee-chapters { display: flex; min-height: 0; flex-direction: column; gap: 64px; }
+  #marketing-site .bee-chapter,
+  #marketing-site .bee-chapter.is-active,
+  #marketing-site .bee-chapter[aria-hidden="false"] { position: relative; inset: auto; visibility: visible; opacity: 1; transform: none; }
+  #marketing-site .bee-chapter[aria-hidden="true"] { visibility: visible; }
+  #marketing-site .bee-journey-navigation { display: none; }
+  #marketing-site .bee-journey-side-label,
+  #marketing-site .bee-journey-scroll-note,
+  #marketing-site .bee-journey-index,
+  #marketing-site .bee-journey-progress { display: none; }
+}
+@media (max-width: 390px) {
+  #marketing-site .opening-stage { padding-right: 18px; padding-left: 18px; }
+  #marketing-site .opening-copy h1 { font-size: 16vw; }
+  #marketing-site .opening-facts { padding-right: 13px; padding-left: 13px; }
+  #marketing-site .place-world-window { height: 255px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #marketing-site .opening-world.is-enhanced .opening-track,
+  #marketing-site .growing-world.is-enhanced .growing-track,
+  #marketing-site .place-world.is-enhanced .place-track,
+  #marketing-site .ritual-world.is-enhanced .ritual-track { height: auto !important; }
+  #marketing-site .opening-world.is-enhanced .opening-stage,
+  #marketing-site .growing-world.is-enhanced .growing-stage,
+  #marketing-site .place-world.is-enhanced .place-stage,
+  #marketing-site .ritual-world.is-enhanced .ritual-stage { position: relative !important; top: auto !important; height: auto !important; }
+  #marketing-site .opening-image-layer img,
+  #marketing-site .opening-copy,
+  #marketing-site .opening-date,
+  #marketing-site .opening-caption,
+  #marketing-site .opening-word,
+  #marketing-site .growing-photo img,
+  #marketing-site .growing-plant,
+  #marketing-site .place-panorama,
+  #marketing-site .ritual-orbit,
+  #marketing-site .ritual-big-word { transform: none !important; transition: none !important; animation: none !important; }
+  #marketing-site .growing-roots,
+  #marketing-site .growing-stem { stroke-dashoffset: 0 !important; }
+  #marketing-site .growing-leaves,
+  #marketing-site .growing-flower,
+  #marketing-site .growing-bee { opacity: 1 !important; transform: none !important; }
+  #marketing-site .place-petal { animation: none !important; }
+  #marketing-site .opening-copy,
+  #marketing-site .opening-date,
+  #marketing-site .opening-caption { animation: none !important; }
+}
+
+/* Bloom for Bees — black and pollen yellow art direction. The scroll scenes
+   stay readable in still mode while the pinned states get cinematic contrast. */
+:root {
+  --world-cream: #f5efcf;
+  --world-paper: #fffdf1;
+  --world-ink: #11110f;
+  --world-green: #1a1a16;
+  --world-deep: #070707;
+  --world-gold: #f4c542;
+  --world-clay: #d79d16;
+  --exp-cream: #f5efcf;
+  --exp-paper: #fffdf1;
+  --exp-ink: #11110f;
+  --exp-muted: #6e684d;
+  --exp-leaf: #26261e;
+  --exp-deep: #090909;
+  --exp-forest: #0b0b09;
+  --exp-sun: #f4c542;
+  --exp-clay: #d79d16;
+  --exp-line: rgba(17, 17, 15, .18);
+}
+
+html { background: #f5efcf; }
+body { background: #f5efcf; color: #11110f; }
+.announcement-bar { background: #090909; color: rgba(255,253,241,.82); }
+.announcement-bar strong, .announcement-bar a { color: #f4c542; }
+.announcement-flower { color: #f4c542; }
+.site-header,
+body.is-scrolled:not(.is-app) .site-header {
+  border-bottom-color: rgba(244,197,66,.18);
+  background: rgba(8,8,7,.9);
+  color: #fffdf1;
+  box-shadow: 0 14px 40px rgba(0,0,0,.16);
+}
+.site-header .brand,
+.site-header .header-login { color: #fffdf1; }
+.site-header .brand-mark { background: #f4c542; color: #090909; }
+.site-header .brand-wordmark > span { color: rgba(255,253,241,.54); }
+.main-nav { color: rgba(255,253,241,.72); }
+.main-nav a:hover, .main-nav a[aria-current="location"] { color: #f4c542; }
+.main-nav a::after { background: #f4c542; }
+.header-cta { border-color: rgba(244,197,66,.7); color: #f4c542; }
+.header-cta:hover { background: #f4c542; color: #090909; }
+.menu-toggle { border-color: rgba(244,197,66,.45); background: #11110f; color: #f4c542; }
+
+#marketing-site {
+  --world-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+  background: #f5efcf;
+  color: #11110f;
+}
+#marketing-site::before {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .055;
+  background-image: var(--world-grain);
+  mix-blend-mode: soft-light;
+}
+#marketing-site .opening-world,
+#marketing-site .growing-world,
+#marketing-site .ritual-world { background: #070707; }
+#marketing-site .opening-stage { background: #070707; --scene-progress: var(--opening-progress, 0); }
+#marketing-site .opening-stage::after,
+#marketing-site .growing-stage::after,
+#marketing-site .ritual-stage::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  opacity: .72;
+  background: radial-gradient(circle at var(--cursor-x, 52vw) var(--cursor-y, 38vh), rgba(244,197,66,.12), transparent 23%), linear-gradient(180deg, rgba(244,197,66,.035), transparent 24%, transparent 76%, rgba(0,0,0,.34));
+  mix-blend-mode: screen;
+}
+#marketing-site .opening-image-layer img { filter: saturate(.92) contrast(1.08); }
+#marketing-site .opening-shade { background: linear-gradient(90deg,rgba(0,0,0,.88),rgba(0,0,0,.5) 39%,rgba(0,0,0,.12) 78%),linear-gradient(0deg,rgba(0,0,0,.92),transparent 47%,rgba(0,0,0,.2)); }
+#marketing-site .opening-halo { border-color: rgba(244,197,66,.42); }
+#marketing-site .opening-halo-two { border-color: rgba(255,253,241,.18); }
+#marketing-site .opening-topline,
+#marketing-site .opening-coordinate { color: rgba(255,253,241,.65); }
+#marketing-site .opening-eyebrow > span,
+#marketing-site .growing-eyebrow > span,
+#marketing-site .place-eyebrow > span,
+#marketing-site .ritual-eyebrow > span { background: #f4c542; }
+#marketing-site .opening-copy h1 { color: #fffdf1; }
+#marketing-site .opening-copy h1 em { color: #f4c542; }
+#marketing-site .opening-description { color: rgba(255,253,241,.74); }
+#marketing-site .opening-actions .button-primary { background: #f4c542; color: #090909; box-shadow: 0 16px 42px rgba(244,197,66,.2); }
+#marketing-site .opening-actions .button-primary:hover { background: #fff1a8; }
+#marketing-site .opening-actions .button-link { color: rgba(255,253,241,.86); }
+#marketing-site .opening-actions .button-link span,
+#marketing-site .opening-afterthought > span,
+#marketing-site .opening-facts-intro,
+#marketing-site .opening-fact > b { color: #f4c542; }
+#marketing-site .opening-date { border-color: rgba(244,197,66,.7); background: #f5efcf; color: #11110f; box-shadow: 10px 14px 0 rgba(244,197,66,.42), 0 22px 55px rgba(0,0,0,.3); }
+#marketing-site .opening-date strong { color: #11110f; }
+#marketing-site .opening-caption { border-color: rgba(244,197,66,.44); background: rgba(245,239,207,.94); color: #11110f; box-shadow: 0 20px 55px rgba(0,0,0,.22); }
+#marketing-site .opening-caption-mark { background: #f4c542; color: #090909; }
+#marketing-site .opening-caption > span:last-child { color: #9b6e0b; }
+#marketing-site .opening-facts { border-top-color: rgba(244,197,66,.26); background: linear-gradient(90deg,rgba(7,7,7,.98),rgba(12,12,10,.86)); }
+#marketing-site .opening-fact small { color: rgba(255,253,241,.56); }
+#marketing-site .opening-progress span { background: #f4c542; }
+#marketing-site .opening-word { -webkit-text-stroke-color: rgba(244,197,66,.28); }
+
+#marketing-site .growing-stage { background: radial-gradient(ellipse at 70% 47%, #2a2614 0%, #11110e 36%, #070707 78%); }
+#marketing-site .growing-photo::after { background: linear-gradient(90deg,#070707 0%,rgba(7,7,7,.91) 42%,rgba(7,7,7,.28) 100%),linear-gradient(0deg,rgba(7,7,7,.94),transparent 52%); }
+#marketing-site .growing-light { background: radial-gradient(ellipse at 67% 42%,rgba(244,197,66,.22),transparent 42%); }
+#marketing-site .growing-kicker,
+#marketing-site .growing-count b,
+#marketing-site .growing-link { color: #f4c542; }
+#marketing-site .growing-chapter h2 { color: #fffdf1; }
+#marketing-site .growing-chapter h2 em { color: #f4c542; }
+#marketing-site .growing-chapter p { color: rgba(255,253,241,.72); }
+#marketing-site .growing-navigation button:hover,
+#marketing-site .growing-navigation button[aria-current="step"] { border-color: #f4c542; background: #f4c542; color: #090909; }
+#marketing-site .growing-sun-disc { fill: #f4c542; }
+#marketing-site .growing-pollen { opacity: .66; }
+#marketing-site .growing-word { -webkit-text-stroke-color: rgba(244,197,66,.16); }
+
+#marketing-site .place-world { background: #f5efcf; color: #11110f; }
+#marketing-site .place-stage { background: linear-gradient(135deg,#f5efcf,#e7d990 55%,#c4a83d); }
+#marketing-site .place-sky-one { background: radial-gradient(ellipse at 76% 18%,rgba(244,197,66,.45),transparent 21%),linear-gradient(180deg,rgba(255,253,241,.9),rgba(231,217,144,.42) 70%,rgba(116,101,47,.2)); }
+#marketing-site .place-sky-two { background: radial-gradient(ellipse at 75% 23%,rgba(255,249,195,.5),transparent 35%),linear-gradient(180deg,rgba(255,253,241,.3),transparent 62%,rgba(68,59,28,.2)); }
+#marketing-site .place-copy > h2,
+#marketing-site .place-caption h3 { color: #11110f; }
+#marketing-site .place-copy > h2 em { color: #72530d; }
+#marketing-site .place-eyebrow,
+#marketing-site .place-intro,
+#marketing-site .place-caption p { color: #514b35; }
+#marketing-site .place-eyebrow > span,
+#marketing-site .place-action span,
+#marketing-site .place-caption > span,
+#marketing-site .place-navigation b,
+#marketing-site .place-scroll-index b { color: #9b6e0b; }
+#marketing-site .place-navigation button:hover,
+#marketing-site .place-navigation button[aria-current="step"] { border-color: #11110f; background: #11110f; color: #f4c542; }
+#marketing-site .place-panorama { filter: saturate(.54) sepia(.28) contrast(1.08); }
+#marketing-site .place-progress span { background: #11110f; }
+#marketing-site .place-world-window { mask-image: linear-gradient(90deg,transparent 0%,#000 7%,#000 94%,transparent); -webkit-mask-image: linear-gradient(90deg,transparent 0%,#000 7%,#000 94%,transparent); }
+
+#marketing-site .ritual-stage { background: linear-gradient(122deg,#15130d 0%,#0b0b09 47%,#1e1a0b 100%); }
+#marketing-site .ritual-atmosphere-one { background: radial-gradient(ellipse at 72% 44%,rgba(244,197,66,.3),transparent 31%),linear-gradient(125deg,#201b0b,#11110d 55%,#080808); }
+#marketing-site .ritual-atmosphere-two { background: radial-gradient(ellipse at 71% 45%,rgba(244,197,66,.22),transparent 35%),linear-gradient(120deg,#17140b,#080808 55%,#050505); }
+#marketing-site .ritual-copy > h2,
+#marketing-site .ritual-chapter h3 { color: #fffdf1; }
+#marketing-site .ritual-copy > h2 em,
+#marketing-site .ritual-chapter h3 em,
+#marketing-site .ritual-navigation > b span,
+#marketing-site .ritual-link { color: #f4c542; }
+#marketing-site .ritual-path { stroke: #f4c542; }
+#marketing-site .ritual-orbit-bee { fill: #f4c542; }
+#marketing-site .ritual-flower path { fill: #f4c542; }
+#marketing-site .ritual-flower circle:first-of-type { fill: #f8df72; }
+#marketing-site .ritual-flower circle:last-of-type { fill: #11110f; }
+#marketing-site .ritual-progress span { background: #f4c542; }
+
+#marketing-site .planner-section { background: #f4c542; color: #11110f; }
+#marketing-site .planner-copy .eyebrow,
+#marketing-site .planner-copy h2,
+#marketing-site .planner-card-heading h3,
+#marketing-site .countdown-card strong { color: #11110f; }
+#marketing-site .planner-copy h2 em { color: #513c08; }
+#marketing-site .planner-copy > p:not(.eyebrow),
+#marketing-site .form-hint,
+#marketing-site .privacy-note,
+#marketing-site .countdown-label,
+#marketing-site .countdown-card small { color: rgba(17,17,15,.7); }
+#marketing-site .countdown-card { border-color: rgba(17,17,15,.22); background: rgba(255,253,241,.42); }
+#marketing-site .planner-card { border-color: rgba(17,17,15,.18); background: #fffdf1; box-shadow: 0 26px 70px rgba(57,43,5,.2); }
+#marketing-site .planner-card select { border-color: rgba(17,17,15,.18); background: #fffdf1; color: #11110f; }
+#marketing-site .planner-card .button-primary { background: #11110f; color: #f4c542; }
+#marketing-site .planner-card .button-primary:hover { background: #2b2a20; }
+#marketing-site .privacy-note strong { color: #11110f; }
+
+#marketing-site .faq-section { background: #fffdf1; color: #11110f; }
+#marketing-site .faq-heading h2,
+#marketing-site .faq-item summary { color: #11110f; }
+#marketing-site .faq-heading h2 em { color: #9b6e0b; }
+#marketing-site .faq-heading > p:not(.eyebrow),
+#marketing-site .faq-item p { color: #625b42; }
+#marketing-site .faq-item { border-bottom-color: rgba(17,17,15,.18); }
+#marketing-site .faq-item summary::after { border-color: rgba(17,17,15,.26); color: #9b6e0b; }
+#marketing-site .faq-item[open] summary::after { background: #f4c542; color: #11110f; }
+
+#marketing-site .share-section { background: linear-gradient(180deg,#080808 0%,#11110e 73%,#f4c542 100%); }
+#marketing-site .share-section::before { border-color: rgba(244,197,66,.28); background: radial-gradient(circle,rgba(244,197,66,.18),transparent 68%); }
+#marketing-site .share-section::after { background: linear-gradient(180deg,transparent,rgba(244,197,66,.92)); }
+#marketing-site .share-copy .eyebrow,
+#marketing-site .share-copy h2 em,
+#marketing-site .share-date-card > strong { color: #f4c542; }
+#marketing-site .share-copy h2 { color: #fffdf1; }
+#marketing-site .share-copy > p:not(.eyebrow) { color: rgba(255,253,241,.74); }
+#marketing-site .share-section .button-cream { border-color: #f4c542; background: #f4c542; color: #11110f; }
+#marketing-site .share-section .button-cream:hover { background: #fff1a8; }
+#marketing-site .share-date-card { border-color: rgba(244,197,66,.62); color: #fffdf1; }
+#marketing-site .share-flower { color: rgba(244,197,66,.12); }
+#marketing-site .closing-bottomline { border-top-color: rgba(244,197,66,.35); color: rgba(255,253,241,.64); }
+#marketing-site .closing-bottomline a:hover { color: #f4c542; }
+#marketing-site .site-footer { background: #f4c542; }
+#marketing-site .site-footer .brand,
+#marketing-site .site-footer .back-top { color: #11110f; }
+#marketing-site .site-footer .brand-mark { background: #11110f; color: #f4c542; }
+#marketing-site .site-footer > p { color: rgba(17,17,15,.62); }
+#marketing-site .site-footer .model-credit {
+  max-width: 320px;
+  color: rgba(17,17,15,.58);
+  font-size: 9px;
+  line-height: 1.45;
+}
+#marketing-site .site-footer .model-credit a { color: inherit; text-underline-offset: 3px; }
+
+@media (max-width: 760px) {
+  .site-header, body.is-scrolled:not(.is-app) .site-header { background: rgba(8,8,7,.96); }
+  #marketing-site .site-footer .model-credit { order: 4; width: 100%; max-width: none; }
+  #marketing-site .opening-stage::after,
+  #marketing-site .growing-stage::after,
+  #marketing-site .ritual-stage::after { opacity: .46; }
+  #marketing-site .place-world-window { mask-image: linear-gradient(90deg,#000,#000); -webkit-mask-image: linear-gradient(90deg,#000,#000); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #marketing-site::before { display: none; }
+  #marketing-site .opening-stage::after,
+  #marketing-site .growing-stage::after,
+  #marketing-site .ritual-stage::after { background: linear-gradient(180deg,rgba(244,197,66,.035),transparent 24%,transparent 76%,rgba(0,0,0,.3)); }
+}
+
+/* Keep the global navigation inside the bee world art direction. The existing
+   theme shell has a higher specificity than the scene styles, so this final
+   rule intentionally wins for the public marketing page. */
+:root[data-theme] body:not(.is-app) .site-header,
+:root[data-theme] body:not(.is-app).is-scrolled .site-header {
+  background: rgba(8, 8, 7, 0.94) !important;
+  border-bottom-color: rgba(244, 197, 66, 0.18) !important;
+  color: #fffdf1 !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-header .brand,
+:root[data-theme] body:not(.is-app) .site-header .header-login {
+  color: #fffdf1 !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-header .brand-wordmark > span {
+  color: rgba(255, 253, 241, 0.54) !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-header .main-nav {
+  color: rgba(255, 253, 241, 0.72) !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-header .header-cta {
+  border-color: rgba(244, 197, 66, 0.7) !important;
+  color: #f4c542 !important;
+}
+
+/* The base dark-theme stylesheet also scopes these utility sections from the
+   root, so keep the final palette rules equally explicit. */
+:root[data-theme] body:not(.is-app) #marketing-site .planner-section {
+  background: #f4c542 !important;
+  color: #11110f !important;
+}
+
+:root[data-theme] body:not(.is-app) #marketing-site .planner-copy h2,
+:root[data-theme] body:not(.is-app) #marketing-site .planner-card-heading h3,
+:root[data-theme] body:not(.is-app) #marketing-site .countdown-card strong {
+  color: #11110f !important;
+}
+
+:root[data-theme] body:not(.is-app) #marketing-site .planner-copy > p:not(.eyebrow),
+:root[data-theme] body:not(.is-app) #marketing-site .form-hint,
+:root[data-theme] body:not(.is-app) #marketing-site .privacy-note,
+:root[data-theme] body:not(.is-app) #marketing-site .countdown-label,
+:root[data-theme] body:not(.is-app) #marketing-site .countdown-card small {
+  color: rgba(17, 17, 15, 0.7) !important;
+}
+
+:root[data-theme] body:not(.is-app) #marketing-site .planner-card {
+  background: #fffdf1 !important;
+  color: #11110f !important;
+  border-color: rgba(17, 17, 15, 0.18) !important;
+}
+
+:root[data-theme] body:not(.is-app) #marketing-site .planner-card select {
+  border-color: rgba(17, 17, 15, 0.18) !important;
+  background: #fffdf1 !important;
+  color: #11110f !important;
+}
+
+:root[data-theme] body:not(.is-app) #marketing-site .countdown-card {
+  border-color: rgba(17, 17, 15, 0.22) !important;
+  background: rgba(255, 253, 241, 0.42) !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-footer {
+  width: 100% !important;
+  background: #f4c542 !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-footer .brand,
+:root[data-theme] body:not(.is-app) .site-footer .back-top {
+  color: #11110f !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-footer .brand-mark {
+  background: #11110f !important;
+  color: #f4c542 !important;
+}
+
+:root[data-theme] body:not(.is-app) .site-footer > p {
+  color: rgba(17, 17, 15, 0.62) !important;
+}
+
+/* Cinematic journey ------------------------------------------------------
+   This is the primary scroll story. The stills are generated photographic
+   frames, so the motion system only interpolates opacity, scale, and camera
+   drift; it never asks the browser to animate layout or fake 3D geometry. */
+#marketing-site .cinematic-journey {
+  position: relative;
+  z-index: 2;
+  overflow: clip;
+  color: #fffdf1;
+  background: #050505;
+}
+
+#marketing-site .cinematic-journey-track {
+  position: relative;
+  min-height: 760px;
+}
+
+#marketing-site .cinematic-journey-stage {
+  position: relative;
+  display: flex;
+  min-height: min(900px, calc(100svh - var(--world-header)));
+  height: min(900px, calc(100svh - var(--world-header)));
+  overflow: hidden;
+  isolation: isolate;
+  background: #090909;
+}
+
+#marketing-site .cinematic-journey.is-enhanced .cinematic-journey-track {
+  height: 450svh;
+}
+
+#marketing-site .cinematic-journey.is-enhanced .cinematic-journey-stage {
+  position: sticky;
+  top: var(--world-header);
+  height: calc(100svh - var(--world-header));
+  min-height: 620px;
+}
+
+#marketing-site .cinematic-journey-media,
+#marketing-site .cinematic-frame,
+#marketing-site .cinematic-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#marketing-site .cinematic-journey-media {
+  z-index: 0;
+  overflow: hidden;
+  background: #0b0b0b;
+}
+
+#marketing-site .cinematic-frame {
+  margin: 0;
+  opacity: var(--cinematic-opacity, 0);
+  transform: translate3d(var(--cinematic-x, 0px), var(--cinematic-y, 0px), 0) scale(var(--cinematic-scale, 1.06));
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+#marketing-site .cinematic-frame img {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.9) contrast(1.08) brightness(.72);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+#marketing-site .cinematic-frame:nth-child(2) img { object-position: 52% 50%; }
+#marketing-site .cinematic-frame:nth-child(3) img { object-position: 54% 50%; }
+#marketing-site .cinematic-frame:nth-child(4) img { object-position: 50% 48%; }
+#marketing-site .cinematic-frame:nth-child(5) img { object-position: 54% 52%; }
+#marketing-site .cinematic-journey:not(.is-enhanced) .cinematic-frame:first-child { opacity: 1; transform: none; }
+
+#marketing-site .cinematic-journey-scrim {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(4,4,4,.96) 0%, rgba(4,4,4,.79) 26%, rgba(4,4,4,.25) 62%, rgba(4,4,4,.08) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.46), transparent 26%, transparent 67%, rgba(0,0,0,.7));
+}
+
+#marketing-site .cinematic-journey-grain {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  opacity: .13;
+  background-image: var(--world-grain);
+  mix-blend-mode: soft-light;
+}
+
+#marketing-site .cinematic-journey-topline {
+  position: absolute;
+  z-index: 4;
+  top: clamp(18px, 3.5vw, 45px);
+  right: max(6vw, calc((100vw - 1380px) / 2));
+  left: max(6vw, calc((100vw - 1380px) / 2));
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  color: rgba(255,253,241,.66);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#marketing-site .cinematic-journey-copy {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  width: min(610px, 46vw);
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: max(6vw, calc((100vw - 1380px) / 2));
+  padding: 9vh 0 7vh;
+}
+
+#marketing-site .cinematic-journey-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 0 0 26px;
+  color: rgba(255,253,241,.77);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#marketing-site .cinematic-journey-eyebrow > span {
+  width: 42px;
+  height: 1px;
+  background: #f4c542;
+}
+
+#marketing-site .cinematic-journey-chapters {
+  position: relative;
+  min-height: clamp(430px, 34vh, 560px);
+}
+
+#marketing-site .cinematic-journey-chapter {
+  position: absolute;
+  inset: 0;
+  max-width: 600px;
+  opacity: var(--cinematic-copy-opacity, 0);
+  visibility: hidden;
+  transform: translate3d(0, var(--cinematic-copy-y, 18px), 0);
+  will-change: transform, opacity;
+}
+
+#marketing-site .cinematic-journey-chapter[aria-hidden="false"] {
+  visibility: visible;
+}
+
+#marketing-site .cinematic-journey:not(.is-enhanced) .cinematic-journey-chapter:first-child {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+#marketing-site .cinematic-journey-kicker {
+  display: block;
+  margin-bottom: 18px;
+  color: #f4c542;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+#marketing-site .cinematic-journey-kicker i {
+  color: rgba(255,253,241,.54);
+  font-style: normal;
+}
+
+#marketing-site .cinematic-journey-chapter h2 {
+  margin: 0;
+  color: #fffdf1;
+  font-size: clamp(54px, 7.15vw, 108px);
+  font-weight: 500;
+  letter-spacing: -.075em;
+  line-height: .89;
+}
+
+#marketing-site .cinematic-journey-chapter h2 em {
+  color: #f4c542;
+  font-family: var(--serif);
+  font-weight: 600;
+  letter-spacing: -.08em;
+}
+
+#marketing-site .cinematic-journey-chapter p {
+  max-width: 430px;
+  margin: 26px 0 0;
+  color: rgba(255,253,241,.76);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+#marketing-site .cinematic-journey-navigation {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+#marketing-site .cinematic-journey-navigation button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid rgba(255,253,241,.35);
+  border-radius: 50%;
+  color: rgba(255,253,241,.76);
+  background: transparent;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: color .24s ease, background-color .24s ease, border-color .24s ease, transform .24s ease;
+}
+
+#marketing-site .cinematic-journey-navigation button:hover,
+#marketing-site .cinematic-journey-navigation button[aria-current="step"] {
+  border-color: #f4c542;
+  color: #090909;
+  background: #f4c542;
+  transform: translateY(-2px);
+}
+
+#marketing-site .cinematic-journey-navigation > span {
+  width: 22px;
+  height: 1px;
+  background: rgba(255,253,241,.24);
+}
+
+#marketing-site .cinematic-journey-navigation b {
+  margin-left: 9px;
+  color: rgba(255,253,241,.52);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+#marketing-site .cinematic-journey-navigation b strong {
+  color: #f4c542;
+}
+
+#marketing-site .cinematic-journey-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  width: fit-content;
+  margin-top: 30px;
+  color: #fffdf1;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#marketing-site .cinematic-journey-link span { color: #f4c542; font-size: 17px; }
+#marketing-site .cinematic-journey-link:hover { color: #f4c542; }
+
+#marketing-site .cinematic-journey-side-label {
+  position: absolute;
+  z-index: 4;
+  right: max(21px, 2.6vw);
+  bottom: 116px;
+  color: rgba(255,253,241,.64);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+#marketing-site .cinematic-journey-progress {
+  position: absolute;
+  z-index: 5;
+  right: max(6vw, calc((100vw - 1380px) / 2));
+  bottom: 34px;
+  left: max(6vw, calc((100vw - 1380px) / 2));
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255,253,241,.26);
+}
+
+#marketing-site .cinematic-journey-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(var(--cinematic-progress, 0));
+  transform-origin: left center;
+  background: #f4c542;
+}
+
+#marketing-site .cinematic-journey-index {
+  position: absolute;
+  z-index: 5;
+  right: max(6vw, calc((100vw - 1380px) / 2));
+  bottom: 50px;
+  display: flex;
+  gap: 4px;
+  color: rgba(255,253,241,.55);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+#marketing-site .cinematic-journey-index b { color: #f4c542; }
+
+@media (max-width: 900px) {
+  #marketing-site .cinematic-journey-stage,
+  #marketing-site .cinematic-journey.is-enhanced .cinematic-journey-stage {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+    padding: 0 22px 64px;
+  }
+
+  #marketing-site .cinematic-journey-track,
+  #marketing-site .cinematic-journey.is-enhanced .cinematic-journey-track { height: auto; }
+
+  #marketing-site .cinematic-journey-media {
+    position: relative;
+    inset: auto;
+    width: calc(100% + 44px);
+    height: min(70vw, 480px);
+    margin: 0 -22px;
+  }
+
+  #marketing-site .cinematic-frame { display: none; }
+  #marketing-site .cinematic-frame:first-child { display: block; opacity: 1; transform: none; }
+  #marketing-site .cinematic-journey-scrim { inset: auto 0 0; height: 58%; background: linear-gradient(180deg, transparent, rgba(4,4,4,.92)); }
+  #marketing-site .cinematic-journey-grain { inset: auto 0 0; height: 58%; }
+  #marketing-site .cinematic-journey-topline { top: 17px; right: 22px; left: 22px; font-size: 6px; }
+  #marketing-site .cinematic-journey-copy { width: 100%; min-height: 0; margin: 0; padding: 43px 0 0; }
+  #marketing-site .cinematic-journey-eyebrow { margin-bottom: 22px; font-size: 8px; }
+  #marketing-site .cinematic-journey-chapters { min-height: 0; }
+  #marketing-site .cinematic-journey-chapter { position: relative; inset: auto; display: block; visibility: visible !important; opacity: 1 !important; transform: none !important; margin-bottom: 28px; }
+  #marketing-site .cinematic-journey-chapter[aria-hidden="true"] { display: none; }
+  #marketing-site .cinematic-journey-chapter h2 { font-size: clamp(48px, 13vw, 74px); }
+  #marketing-site .cinematic-journey-chapter p { margin-top: 16px; font-size: 12px; }
+  #marketing-site .cinematic-journey-navigation { display: none; }
+  #marketing-site .cinematic-journey-link { margin-top: 4px; }
+  #marketing-site .cinematic-journey-side-label,
+  #marketing-site .cinematic-journey-progress,
+  #marketing-site .cinematic-journey-index { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #marketing-site .cinematic-frame { transform: none !important; transition: none !important; }
+  #marketing-site .cinematic-journey-chapter { transform: none !important; transition: none !important; }
+}
+
+/* Photographic companion frames keep the supporting scenes in the same visual
+   world as the pinned journey. The older illustrative layers remain in the
+   markup as a no-JS fallback, but never compete with the prepared images. */
+#marketing-site .growing-cinematic-art {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(244,197,66,.22);
+  object-fit: cover;
+  object-position: 66% 50%;
+  filter: saturate(.92) contrast(1.04);
+  transform: translate3d(var(--growing-art-x,0px),var(--growing-art-y,0px),0) scale(var(--growing-art-scale,1.03));
+  transform-origin: center;
+  box-shadow: 0 26px 70px rgba(0,0,0,.26);
+  will-change: transform;
+}
+
+#marketing-site .growing-art::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg,rgba(7,7,7,.28),transparent 46%),linear-gradient(180deg,transparent 66%,rgba(7,7,7,.42));
+}
+
+#marketing-site .growing-plant,
+#marketing-site .growing-pollen,
+#marketing-site .growing-sun { display: none; }
+
+#marketing-site .place-cinematic-art {
+  display: block;
+  width: 300%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.9) contrast(1.04);
+  transform: translate3d(var(--place-shift,0px),var(--place-art-y,0px),0) scale(var(--place-art-scale,1));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+#marketing-site .place-panorama { display: none; }
+
+#marketing-site .ritual-cinematic-art {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(244,197,66,.28);
+  object-fit: cover;
+  object-position: 67% center;
+  filter: saturate(.88) contrast(1.06) brightness(.76);
+  transform: translate3d(var(--ritual-photo-x,0px),var(--ritual-photo-y,0px),0) scale(var(--ritual-art-scale,.91));
+  transform-origin: center;
+  box-shadow: 0 26px 72px rgba(0,0,0,.36);
+  will-change: transform;
+}
+
+#marketing-site .ritual-art::after {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg,rgba(7,7,7,.42),transparent 58%),linear-gradient(180deg,rgba(7,7,7,.1),rgba(7,7,7,.55));
+}
+
+#marketing-site .ritual-orbit { display: none; }
+#marketing-site .ritual-big-word { z-index: 4; }
+
+@media (max-width: 760px) {
+  #marketing-site .growing-cinematic-art { object-position: 62% 50%; }
+  #marketing-site .place-cinematic-art { width: 220%; }
+  #marketing-site .ritual-cinematic-art { object-position: 66% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #marketing-site .growing-cinematic-art,
+  #marketing-site .place-cinematic-art,
+  #marketing-site .ritual-cinematic-art { transform: none !important; }
+}
+
+/* Cinematic canvas pass -------------------------------------------------- */
+#marketing-site .opening-image-layer {
+  z-index: 0 !important;
+  background: #050806;
+}
+
+#marketing-site .opening-webgl-canvas {
+  z-index: 0 !important;
+  opacity: 1 !important;
+}
+
+#marketing-site .opening-shade {
+  z-index: 1 !important;
+  background:
+    linear-gradient(90deg, rgba(3,9,6,.88) 0%, rgba(3,9,6,.48) 42%, rgba(3,9,6,.08) 78%),
+    linear-gradient(180deg, rgba(2,5,3,.32), transparent 34%, rgba(2,5,3,.68));
+}
+
+#marketing-site .opening-stage::after {
+  z-index: 2;
+  opacity: .35;
+}
+
+#marketing-site .opening-copy,
+#marketing-site .opening-topline,
+#marketing-site .opening-coordinate,
+#marketing-site .opening-date,
+#marketing-site .opening-caption,
+#marketing-site .opening-facts,
+#marketing-site .opening-progress { z-index: 4 !important; }
+
+#marketing-site .opening-halo,
+#marketing-site .opening-word { display: none !important; }
+
+#marketing-site .opening-copy {
+  width: min(760px, 62vw);
+}
+
+#marketing-site .opening-copy h1 {
+  max-width: 760px;
+  font-size: clamp(64px, 8.1vw, 120px);
+  line-height: .84;
+}
+
+#marketing-site .opening-date { opacity: .92; }
+
+#marketing-site .bee-render-shell {
+  z-index: 0;
+  background: #07100b;
+}
+
+#marketing-site .bee-world-canvas {
+  z-index: 0 !important;
+  display: block;
+  opacity: 1 !important;
+  mix-blend-mode: normal;
+}
+
+#marketing-site .bee-render-glow {
+  z-index: 1;
+  opacity: .45;
+  mix-blend-mode: screen;
+}
+
+#marketing-site .bee-render-vignette {
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3,8,6,.2), transparent 68%),
+    linear-gradient(180deg, rgba(3,8,6,.18), transparent 30%, rgba(3,8,6,.6));
+}
+
+#marketing-site .bee-chapters .bee-chapter[aria-hidden="true"] {
+  display: none !important;
+}
+
+#marketing-site .bee-chapters .bee-chapter[aria-hidden="false"],
+#marketing-site .bee-chapters .bee-chapter.is-active {
+  display: block !important;
+}
+
+#marketing-site .bee-chapter {
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+#marketing-site .bee-journey-copy { width: min(530px, 40vw); }
+
+#marketing-site .bee-chapter h2 {
+  font-size: clamp(52px, 6vw, 90px);
+  text-wrap: balance;
+}
+
+#marketing-site .bee-chapter p { max-width: 390px; }
+
+#marketing-site .bee-journey { background: #050806; }
+
+@media (max-width: 760px) {
+  #marketing-site .opening-copy { width: auto; }
+  #marketing-site .bee-journey-copy { width: auto; }
+}

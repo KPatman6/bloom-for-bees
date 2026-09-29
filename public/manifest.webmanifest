@@ -1,0 +1,18 @@
+{
+  "name": "Bloom for Bees — Garden journal",
+  "short_name": "Bloom for Bees",
+  "description": "A private place to plan, grow, and celebrate your pollinator-friendly garden.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f7f1",
+  "theme_color": "#f8f7f1",
+  "icons": [
+    {
+      "src": "/assets/flower-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
